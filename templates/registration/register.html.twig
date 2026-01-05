@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registre-se
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+
+                <h1>Registre-se</h1>
+
+                {{ form_errors(registrationForm) }}
+
+                {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword, {label: 'Senha'}) }}
+                {{ form_row(registrationForm.plainPassword2, {label: 'Confirmar Senha'}) }}
+                {{ form_row(registrationForm.name, {label: 'Nome'}) }}
+                {{ form_row(registrationForm.cpf, {label: 'CPF'}) }}
+                {{ form_row(registrationForm.phone, {label: 'Telefone'}) }}
+                {{ form_row(registrationForm.birthday, {label: 'Data de Nascimento', value: ''}) }}
+                {{ form_row(registrationForm.gender, {label: 'Gênero'}) }}
+
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

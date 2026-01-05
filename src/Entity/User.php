@@ -5,12 +5,14 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'Já existe um usuário com este e-mail.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,7 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $email = null;
 
     /**
@@ -34,16 +36,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nome = null;
+    private ?string $name = null;
+
+    #[ORM\Column(length: 15, unique: true)]
+    private ?string $cpf = null;
 
     #[ORM\Column(length: 15)]
     private ?string $phone = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $nascimento = null;
+    private ?\DateTime $birthday = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $sexo = null;
+    private ?string $gender = null;
 
     public function getId(): ?int
     {
@@ -109,25 +114,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * Ensure the session doesn't contain actual password hashes by CRC32C-hashing them, as supported since Symfony 7.3.
-     */
-    public function __serialize(): array
+    public function getName(): ?string
     {
-        $data = (array) $this;
-        $data["\0".self::class."\0password"] = hash('crc32c', $this->password);
-
-        return $data;
+        return $this->name;
     }
 
-    public function getNome(): ?string
+    public function setName(string $name): static
     {
-        return $this->nome;
+        $this->name = $name;
+
+        return $this;
     }
 
-    public function setNome(string $nome): static
+    public function getCpf(): ?string
     {
-        $this->nome = $nome;
+        return $this->cpf;
+    }
+
+    public function setCpf(string $cpf): static
+    {
+        $this->cpf = $cpf;
 
         return $this;
     }
@@ -144,26 +150,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNascimento(): ?\DateTime
+    public function getBirthday(): ?\DateTime
     {
-        return $this->nascimento;
+        return $this->birthday;
     }
 
-    public function setNascimento(\DateTime $nascimento): static
+    public function setBirthday(\DateTime $birthday): static
     {
-        $this->nascimento = $nascimento;
+        $this->birthday = $birthday;
 
         return $this;
     }
 
-    public function getSexo(): ?string
+    public function getGender(): ?string
     {
-        return $this->sexo;
+        return $this->gender;
     }
 
-    public function setSexo(?string $sexo): static
+    public function setGender(?string $gender): static
     {
-        $this->sexo = $sexo;
+        $this->gender = $gender;
 
         return $this;
     }
