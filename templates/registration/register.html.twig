@@ -10,20 +10,20 @@
 
                 <h1>Registre-se</h1>
 
-                {{ form_errors(registrationForm) }}
+                {{ form_errors(userForm) }}
 
-                {{ form_start(registrationForm) }}
-                {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.plainPassword, {label: 'Senha'}) }}
-                {{ form_row(registrationForm.plainPassword2, {label: 'Confirmar Senha'}) }}
-                {{ form_row(registrationForm.name, {label: 'Nome'}) }}
-                {{ form_row(registrationForm.cpf, {label: 'CPF'}) }}
-                {{ form_row(registrationForm.phone, {label: 'Telefone'}) }}
-                {{ form_row(registrationForm.birthday, {label: 'Data de Nascimento', value: ''}) }}
-                {{ form_row(registrationForm.gender, {label: 'Gênero'}) }}
+                {{ form_start(userForm) }}
+                {{ form_row(userForm.email) }}
+                {{ form_row(userForm.plainPassword.first, {label: 'Senha'}) }}
+                {{ form_row(userForm.plainPassword.second, {label: 'Confirmar Senha'}) }}
+                {{ form_row(userForm.name, {label: 'Nome'}) }}
+                {{ form_row(userForm.cpf, {label: 'CPF'}) }}
+                {{ form_row(userForm.phone, {label: 'Telefone'}) }}
+                {{ form_row(userForm.birthday, {label: 'Data de Nascimento', value: ''}) }}
+                {{ form_row(userForm.gender, {label: 'Gênero'}) }}
 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
-                {{ form_end(registrationForm) }}
+                {{ form_end(userForm) }}
             </div>
         </div>
     </div>

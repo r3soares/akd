@@ -3,18 +3,34 @@
 {% block title %}Hello PerfilController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <h1>Olá {{ app.user.name }}</h1>
+            <div class="col-md-4">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                {{ form_errors(userForm) }}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/nokaut/Documentos/Projetos/akd/src/Controller/PerfilController.php</code></li>
-        <li>Your template at <code>/home/nokaut/Documentos/Projetos/akd/templates/perfil/index.html.twig</code></li>
-    </ul>
-</div>
+                {{ form_start(userForm) }}
+                {{ form_row(userForm.name, {label: 'Nome'}) }}
+                {{ form_row(userForm.cpf, {label: 'CPF'}) }}
+                {{ form_row(userForm.email) }}
+                {{ form_row(userForm.phone, {label: 'Telefone'}) }}
+                {{ form_row(userForm.birthday, {label: 'Data de Nascimento'}) }}
+                {{ form_row(userForm.gender, {label: 'Gênero'}) }}
+                {{ form_row(userForm.currentPassword, {label: 'Informe a senha para confirmar as alterações',}) }}
+
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                    <a href="{{ path('app_home') }}" class="btn btn-secondary me-4">Voltar</a>
+                    <!-- Button trigger modal -->
+                    <a href="{{ path('app_perfil_change_password') }}" class="btn btn-link">Alterar Senha</a>
+                </div>
+                {# Token de segurança para evitar o CSRF #}
+                {{ form_widget(userForm._token) }}
+                {# don't render unrendered fields #}
+                {{ form_end(userForm, {render_rest: false}) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
