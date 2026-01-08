@@ -13,9 +13,9 @@
                 <div class="card" style="width: 18rem;">
                     <img src="{{ asset('build/img/akd_generico.png') }}" class="card-img-top mt-1" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">{{name}}</h5>
-                        <p class="card-text">{{ data.desc }}</p>
-                        <a href="{{ path(data.route) }}" class="btn btn-primary">Ir</a>
+                        <p class="card-text">{{ data.desc }}.</p>
+                        <a href="{{ path(data.route) }}" class="btn btn-primary">{{ name }}</a>
+
                     </div>
                 </div>
             {% endfor %}
