@@ -1,0 +1,30 @@
+<nav class="navbar fixed-top navbar-expand-lg">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Akd</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				{% for route_name, route_path in routes %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path(route_path) }}">{{ route_name }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+			<ul class="navbar-nav ms-auto">
+                {{ include('nav/theme.html.twig') }}
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_login') }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Login">
+                        {{ ux_icon('material-symbols:login') }}
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_register') }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Registre-se">
+                        {{ ux_icon('mdi:register-outline') }}
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
