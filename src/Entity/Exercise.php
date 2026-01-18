@@ -21,9 +21,6 @@ class Exercise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $difficulty = null;
-
     /**
      * @var Collection<int, ExerciseSet>
      */
@@ -60,18 +57,6 @@ class Exercise
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getDifficulty(): ?int
-    {
-        return $this->difficulty;
-    }
-
-    public function setDifficulty(?int $difficulty): static
-    {
-        $this->difficulty = $difficulty;
 
         return $this;
     }
