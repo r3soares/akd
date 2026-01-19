@@ -90,4 +90,10 @@ class Exercise
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        // Retorne algo que identifique a série, ex: "Série 1" ou o ID
+        return $this->name;
+    }
 }

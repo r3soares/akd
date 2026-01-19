@@ -2,10 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Exercise;
+use App\Entity\ExerciseSet;
+use App\Entity\SetRep;
+use App\Entity\Workout;
+use App\Entity\WorkoutExerciseSet;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AdminDashboard(routePath: '/admin/', routeName: 'admin')]
@@ -13,7 +19,11 @@ class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
-        return parent::index();
+        //return parent::index();
+
+        $routeBuilder = $this->container->get(AdminUrlGenerator::class);
+        $url = $routeBuilder->setController(ExerciseCrudController::class)->generateUrl();
+        return $this->redirect($url);
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -45,6 +55,10 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToCrud('Exercícios', 'fas fa-list', Exercise::class);
+        yield MenuItem::linkToCrud('Repetições', 'fas fa-list', SetRep::class);
+        yield MenuItem::linkToCrud('Relacionar Exercício/Série', 'fas fa-list', ExerciseSet::class);
+        yield MenuItem::linkToCrud('Workout', 'fas fa-list', Workout::class);
+        yield MenuItem::linkToCrud('WorkoutExerciseSet', 'fas fa-list', WorkoutExerciseSet::class);
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\SetRepository;
+use App\Repository\SetRepRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SetRepository::class)]
-class Set
+#[ORM\Entity(repositoryClass: SetRepRepository::class)]
+class SetRep
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,11 +16,13 @@ class Set
     private ?int $id = null;
     #[ORM\Column]
     private ?int $repetition = null;
+    #[ORM\Column]
+    private ?int $sets = null;
 
     /**
      * @var Collection<int, ExerciseSet>
      */
-    #[ORM\OneToMany(targetEntity: ExerciseSet::class, mappedBy: 'set')]
+    #[ORM\OneToMany(targetEntity: ExerciseSet::class, mappedBy: 'setRep')]
     private Collection $exerciseSets;
 
     public function __construct()
@@ -57,7 +59,7 @@ class Set
     {
         if (!$this->exerciseSets->contains($exerciseSet)) {
             $this->exerciseSets->add($exerciseSet);
-            $exerciseSet->setSet($this);
+            $exerciseSet->setSetRep($this);
         }
 
         return $this;
@@ -67,11 +69,25 @@ class Set
     {
         if ($this->exerciseSets->removeElement($exerciseSet)) {
             // set the owning side to null (unless already changed)
-            if ($exerciseSet->getSet() === $this) {
-                $exerciseSet->setSet(null);
+            if ($exerciseSet->getSetRep() === $this) {
+                $exerciseSet->setSetRep(null);
             }
         }
 
         return $this;
+    }
+    public function getSets(): ?int
+    {
+        return $this->sets;
+    }
+
+    public function setSets(?int $sets): void
+    {
+        $this->sets = $sets;
+    }
+    public function __toString(): string
+    {
+        // Retorne algo que identifique a série, ex: "Série 1" ou o ID
+        return $this->sets . 'x' . $this->repetition;
     }
 }

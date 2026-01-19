@@ -23,7 +23,11 @@
                 {{ form_row(userForm.gender, {label: 'Gênero'}) }}
 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
-                {{ form_end(userForm) }}
+
+                {# Token de segurança para evitar o CSRF #}
+                {{ form_widget(userForm._token) }}
+
+                {{ form_end(userForm, {render_rest: false})}}
             </div>
         </div>
     </div>
