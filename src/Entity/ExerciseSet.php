@@ -15,9 +15,6 @@ class ExerciseSet
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 128, nullable: true)]
-    private ?string $name = null;
-
     #[ORM\ManyToOne(inversedBy: 'exerciseSets')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Exercise $exercise = null;
@@ -39,18 +36,6 @@ class ExerciseSet
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getExercise(): ?Exercise
