@@ -20,7 +20,7 @@ class ExerciseSet
     private ?Exercise $exercise = null;
 
     #[ORM\ManyToOne(inversedBy: 'exerciseSets')]
-    private ?Set $set = null;
+    private ?SetRep $setRep = null;
 
     /**
      * @var Collection<int, WorkoutExerciseSet>
@@ -50,14 +50,14 @@ class ExerciseSet
         return $this;
     }
 
-    public function getSet(): ?Set
+    public function getSetRep(): ?SetRep
     {
-        return $this->set;
+        return $this->setRep;
     }
 
-    public function setSet(?Set $set): static
+    public function setSetRep(?SetRep $setRep): static
     {
-        $this->set = $set;
+        $this->setRep = $setRep;
 
         return $this;
     }
@@ -90,5 +90,10 @@ class ExerciseSet
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->exercise->getName() . ' - ' . $this->setRep->__toString();
     }
 }

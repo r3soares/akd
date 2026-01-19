@@ -2,18 +2,18 @@
 
 namespace App\Repository;
 
-use App\Entity\Set;
+use App\Entity\SetRep;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Set>
+ * @extends ServiceEntityRepository<SetRep>
  */
-class SetRepository extends ServiceEntityRepository
+class SetRepRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Set::class);
+        parent::__construct($registry, SetRep::class);
     }
 
     //    /**

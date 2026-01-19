@@ -59,13 +59,6 @@ class UserFormType extends AbstractType
                     new Length(min: 6, max: 4096, minMessage: 'Sua senha deve ter pelo menos {{ limit }} caracteres'),
                 ],
             ])
-            ->add('currentPassword', PasswordType::class, [
-                'mapped' => false,
-                'label' => 'Senha Atual para salvar as alterações',
-                'constraints' => [
-                    new UserPassword(message: 'Senha incorreta'),
-                ],
-            ])
         ;
     }
 
