@@ -19,9 +19,8 @@ class WorkoutExerciseSetCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')->hideOnForm(),
-            AssociationField::new('exerciseSet'),
-            AssociationField::new('workout'),
+            AssociationField::new('exerciseSet', 'Exercício'),
+            AssociationField::new('workout', 'Treino'),
         ];
     }
 }

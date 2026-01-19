@@ -18,8 +18,8 @@ class SetRepCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            IntegerField::new('repetition'),
-            IntegerField::new('sets'),
+            IntegerField::new('repetition', 'Repetições'),
+            IntegerField::new('sets', 'Séries'),
         ];
     }
 }

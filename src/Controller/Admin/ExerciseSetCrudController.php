@@ -18,8 +18,8 @@ class ExerciseSetCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            AssociationField::new('exercise'),
-            AssociationField::new('setRep'),
+            AssociationField::new('exercise', 'Exercício'),
+            AssociationField::new('setRep', 'Série'),
         ];
     }
 }
