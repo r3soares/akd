@@ -19,12 +19,6 @@ class Workout
     #[ORM\Column(length: 128)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $date = null;
-
-    #[ORM\Column]
-    private ?int $duration = null;
-
     /**
      * @var Collection<int, WorkoutExerciseSet>
      */
@@ -49,30 +43,6 @@ class Workout
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTime
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTime $date): static
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(int $duration): static
-    {
-        $this->duration = $duration;
 
         return $this;
     }
