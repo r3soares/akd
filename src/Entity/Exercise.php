@@ -22,14 +22,14 @@ class Exercise
     private ?string $description = null;
 
     /**
-     * @var Collection<int, ExerciseSet>
+     * @var Collection<int, WorkoutExercise>
      */
-    #[ORM\OneToMany(targetEntity: ExerciseSet::class, mappedBy: 'exercise', orphanRemoval: true)]
-    private Collection $exerciseSets;
+    #[ORM\OneToMany(targetEntity: WorkoutExercise::class, mappedBy: 'exercise')]
+    private Collection $workoutExercises;
 
     public function __construct()
     {
-        $this->exerciseSets = new ArrayCollection();
+        $this->workoutExercises = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,29 +62,29 @@ class Exercise
     }
 
     /**
-     * @return Collection<int, ExerciseSet>
+     * @return Collection<int, WorkoutExercise>
      */
-    public function getExerciseSets(): Collection
+    public function getWorkoutExercises(): Collection
     {
-        return $this->exerciseSets;
+        return $this->workoutExercises;
     }
 
-    public function addExerciseSet(ExerciseSet $exerciseSet): static
+    public function addWorkoutExercise(WorkoutExercise $workoutExercise): static
     {
-        if (!$this->exerciseSets->contains($exerciseSet)) {
-            $this->exerciseSets->add($exerciseSet);
-            $exerciseSet->setExercise($this);
+        if (!$this->workoutExercises->contains($workoutExercise)) {
+            $this->workoutExercises->add($workoutExercise);
+            $workoutExercise->setExercise($this);
         }
 
         return $this;
     }
 
-    public function removeExerciseSet(ExerciseSet $exerciseSet): static
+    public function removeWorkoutExercise(WorkoutExercise $workoutExercise): static
     {
-        if ($this->exerciseSets->removeElement($exerciseSet)) {
+        if ($this->workoutExercises->removeElement($workoutExercise)) {
             // set the owning side to null (unless already changed)
-            if ($exerciseSet->getExercise() === $this) {
-                $exerciseSet->setExercise(null);
+            if ($workoutExercise->getExercise() === $this) {
+                $workoutExercise->setExercise(null);
             }
         }
 
@@ -93,7 +93,6 @@ class Exercise
 
     public function __toString(): string
     {
-        // Retorne algo que identifique a série, ex: "Série 1" ou o ID
-        return $this->name;
+        return $this->name ?? '';
     }
 }

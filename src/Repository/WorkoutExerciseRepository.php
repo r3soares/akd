@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\WorkoutExerciseSet;
+use App\Entity\WorkoutExercise;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<WorkoutExerciseSet>
+ * @extends ServiceEntityRepository<WorkoutExercise>
  */
-class WorkoutExerciseSetRepository extends ServiceEntityRepository
+class WorkoutExerciseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, WorkoutExerciseSet::class);
+        parent::__construct($registry, WorkoutExercise::class);
     }
 
     //    /**
-    //     * @return WorkoutExerciseSet[] Returns an array of WorkoutExerciseSet objects
+    //     * @return WorkoutExercise[] Returns an array of WorkoutExercise objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class WorkoutExerciseSetRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?WorkoutExerciseSet
+    //    public function findOneBySomeField($value): ?WorkoutExercise
     //    {
     //        return $this->createQueryBuilder('w')
     //            ->andWhere('w.exampleField = :val')

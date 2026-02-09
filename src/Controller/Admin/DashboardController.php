@@ -3,11 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Exercise;
-use App\Entity\ExerciseSet;
-use App\Entity\SetRep;
+use App\Entity\ExerciseExecution;
 use App\Entity\Workout;
-use App\Entity\WorkoutExerciseSet;
+use App\Entity\WorkoutExercise;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -21,8 +21,12 @@ class DashboardController extends AbstractDashboardController
     {
         //return parent::index();
 
-        $routeBuilder = $this->container->get(AdminUrlGenerator::class);
-        $url = $routeBuilder->setController(ExerciseCrudController::class)->generateUrl();
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        $url = $adminUrlGenerator
+            ->setController(ExerciseCrudController::class)
+            ->setAction(Crud::PAGE_INDEX)
+            ->generateUrl();
+
         return $this->redirect($url);
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
@@ -55,10 +59,9 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Exercícios', 'fas fa-list', Exercise::class);
-        yield MenuItem::linkToCrud('Repetições', 'fas fa-list', SetRep::class);
-        yield MenuItem::linkToCrud('Relacionar Exercício/Série', 'fas fa-list', ExerciseSet::class);
-        yield MenuItem::linkToCrud('Workout', 'fas fa-list', Workout::class);
-        yield MenuItem::linkToCrud('WorkoutExerciseSet', 'fas fa-list', WorkoutExerciseSet::class);
+        yield MenuItem::linkToCrud('Exercícios', 'fas fa-dumbbell', Exercise::class);
+        yield MenuItem::linkToCrud('Execuções de Exercício', 'fas fa-play', ExerciseExecution::class);
+        yield MenuItem::linkToCrud('Treinos', 'fas fa-clipboard-list', Workout::class);
+        yield MenuItem::linkToCrud('Exercícios do Treino', 'fas fa-list-check', WorkoutExercise::class);
     }
 }

@@ -2,31 +2,31 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Workout;
+use App\Entity\ExerciseExecution;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 
-class WorkoutCrudController extends AbstractCrudController
+class ExerciseExecutionCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Workout::class;
+        return ExerciseExecution::class;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Treino')
-            ->setEntityLabelInPlural('Treinos')
-            ->setPageTitle(Crud::PAGE_INDEX, 'Treinos')
-            ->setPageTitle(Crud::PAGE_NEW, 'Criar Treino')
-            ->setPageTitle(Crud::PAGE_EDIT, 'Editar Treino')
-            ->setPageTitle(Crud::PAGE_DETAIL, 'Detalhes do Treino');
+            ->setEntityLabelInSingular('Execução de Exercício')
+            ->setEntityLabelInPlural('Execuções de Exercício')
+            ->setPageTitle(Crud::PAGE_INDEX, 'Execuções de Exercício')
+            ->setPageTitle(Crud::PAGE_NEW, 'Criar Execução de Exercício')
+            ->setPageTitle(Crud::PAGE_EDIT, 'Editar Execução de Exercício')
+            ->setPageTitle(Crud::PAGE_DETAIL, 'Detalhes da Execução de Exercício');
     }
 
     public function configureActions(Actions $actions): Actions
@@ -40,10 +40,12 @@ class WorkoutCrudController extends AbstractCrudController
         return [
             IdField::new('id')
                 ->onlyOnIndex(),
-            TextField::new('name', 'Nome')
+            TextField::new('short', 'Abreviação')
                 ->setRequired(true)
-                ->setMaxLength(128),
-            AssociationField::new('trainee', 'Aluno'),
+                ->setMaxLength(50),
+            TextareaField::new('description', 'Descrição')
+                ->setRequired(true)
+                ->setMaxLength(255),
         ];
     }
 }

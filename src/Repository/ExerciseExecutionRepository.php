@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\SetRep;
+use App\Entity\ExerciseExecution;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<SetRep>
+ * @extends ServiceEntityRepository<ExerciseExecution>
  */
-class SetRepRepository extends ServiceEntityRepository
+class ExerciseExecutionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SetRep::class);
+        parent::__construct($registry, ExerciseExecution::class);
     }
 
     //    /**
-    //     * @return Set[] Returns an array of Set objects
+    //     * @return ExerciseExecution[] Returns an array of ExerciseExecution objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
+    //        return $this->createQueryBuilder('e')
+    //            ->andWhere('e.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
+    //            ->orderBy('e.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Set
+    //    public function findOneBySomeField($value): ?ExerciseExecution
     //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
+    //        return $this->createQueryBuilder('e')
+    //            ->andWhere('e.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

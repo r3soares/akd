@@ -2,30 +2,30 @@
 
 namespace App\Entity;
 
-use App\Repository\WorkoutRepository;
+use App\Repository\ExerciseExecutionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: WorkoutRepository::class)]
-class Workout
+#[ORM\Entity(repositoryClass: ExerciseExecutionRepository::class)]
+class ExerciseExecution
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 128)]
-    private ?string $name = null;
+    #[ORM\Column(length: 50)]
+    private ?string $short = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
 
     /**
      * @var Collection<int, WorkoutExercise>
      */
-    #[ORM\OneToMany(targetEntity: WorkoutExercise::class, mappedBy: 'workout', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: WorkoutExercise::class, mappedBy: 'exerciseExecution')]
     private Collection $workoutExercises;
-
-    #[ORM\ManyToOne(inversedBy: 'workouts')]
-    private ?User $trainee = null;
 
     public function __construct()
     {
@@ -37,14 +37,26 @@ class Workout
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getShort(): ?string
     {
-        return $this->name;
+        return $this->short;
     }
 
-    public function setName(string $name): static
+    public function setShort(string $short): static
     {
-        $this->name = $name;
+        $this->short = $short;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -61,7 +73,7 @@ class Workout
     {
         if (!$this->workoutExercises->contains($workoutExercise)) {
             $this->workoutExercises->add($workoutExercise);
-            $workoutExercise->setWorkout($this);
+            $workoutExercise->setExerciseExecution($this);
         }
 
         return $this;
@@ -71,23 +83,16 @@ class Workout
     {
         if ($this->workoutExercises->removeElement($workoutExercise)) {
             // set the owning side to null (unless already changed)
-            if ($workoutExercise->getWorkout() === $this) {
-                $workoutExercise->setWorkout(null);
+            if ($workoutExercise->getExerciseExecution() === $this) {
+                $workoutExercise->setExerciseExecution(null);
             }
         }
 
         return $this;
     }
 
-    public function getTrainee(): ?User
+    public function __toString(): string
     {
-        return $this->trainee;
-    }
-
-    public function setTrainee(?User $trainee): static
-    {
-        $this->trainee = $trainee;
-
-        return $this;
+        return $this->short ?? '';
     }
 }
