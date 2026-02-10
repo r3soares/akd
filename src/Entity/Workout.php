@@ -22,6 +22,7 @@ class Workout
      * @var Collection<int, WorkoutExercise>
      */
     #[ORM\OneToMany(targetEntity: WorkoutExercise::class, mappedBy: 'workout', orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $workoutExercises;
 
     #[ORM\ManyToOne(inversedBy: 'workouts')]
@@ -89,5 +90,10 @@ class Workout
         $this->trainee = $trainee;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

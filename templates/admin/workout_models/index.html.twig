@@ -1,0 +1,43 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_top_header %}
+    <h1>Modelos Cadastrados</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="row align-items-start">
+        <div class="row g-3 align-items-start">
+            {% for workout in workouts %}
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">{{ workout.name }}</span>
+                            <a href="{{ path('admin', {
+                                    crudAction: 'edit',
+                                    crudControllerFqcn: 'App\\Controller\\Admin\\WorkoutCrudController',
+                                    entityId: workout.id
+                                }) }}"
+                                class="text-muted text-decoration-none"
+                                data-bs-toggle="tooltip"
+                                title="Editar treino"
+                            >
+                                <i class="fa fa-pen"></i>
+                            </a>
+                        </div>
+
+                        <div class="card-body overflow-auto">
+                            {% if workout.workoutExercises is empty %}
+                                <p class="text-muted">Nenhum exercício</p>
+                            {% else %}
+                                {% for exec in workout.workoutExercises %}
+                                    <p class="mb-1">{{ exec.position }} - {{ exec.exercise.name }} ({{ exec.exerciseExecution.short }})</p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
