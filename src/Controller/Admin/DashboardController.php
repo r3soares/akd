@@ -6,7 +6,6 @@ use App\Entity\Exercise;
 use App\Entity\ExerciseExecution;
 use App\Entity\Workout;
 use App\Entity\WorkoutExercise;
-use App\Repository\WorkoutRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -14,7 +13,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
 #[AdminDashboard(routePath: '/admin/', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
@@ -50,17 +48,5 @@ class DashboardController extends AbstractDashboardController
             'fa fa-layer-group',
             'admin_workout_models'
         );
-    }
-
-    #[Route('/admin/workout-models', name: 'admin_workout_models')]
-    public function workoutModels(WorkoutRepository $repository): Response
-    {
-        $workouts = $repository->findBy([
-            'trainee' => null
-        ]);
-
-        return $this->render('admin/workout_models/index.html.twig', [
-            'workouts' => $workouts,
-        ]);
     }
 }

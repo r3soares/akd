@@ -1,43 +1,103 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
+{% block configured_javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('workout_models') }}
+{% endblock %}
+
 {% block content_top_header %}
     <h1>Modelos Cadastrados</h1>
 {% endblock %}
 
 {% block content %}
-    <div class="row align-items-start">
-        <div class="row g-3 align-items-start">
-            {% for workout in workouts %}
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <span class="fw-bold">{{ workout.name }}</span>
-                            <a href="{{ path('admin', {
+    <div class="container-fluid">
+        <div class="row align-items-start">
+            <div class="row g-3 align-items-start">
+                {% for workout in workouts %}
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span class="fw-bold">{{ workout.name }}</span>
+                                <a href="{{ path('admin', {
                                     crudAction: 'edit',
                                     crudControllerFqcn: 'App\\Controller\\Admin\\WorkoutCrudController',
                                     entityId: workout.id
                                 }) }}"
-                                class="text-muted text-decoration-none"
-                                data-bs-toggle="tooltip"
-                                title="Editar treino"
-                            >
-                                <i class="fa fa-pen"></i>
-                            </a>
-                        </div>
+                                   class="text-muted text-decoration-none"
+                                   data-bs-toggle="tooltip"
+                                   title="Editar treino"
+                                >
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                            </div>
 
-                        <div class="card-body overflow-auto">
-                            {% if workout.workoutExercises is empty %}
-                                <p class="text-muted">Nenhum exercício</p>
-                            {% else %}
-                                {% for exec in workout.workoutExercises %}
-                                    <p class="mb-1">{{ exec.position }} - {{ exec.exercise.name }} ({{ exec.exerciseExecution.short }})</p>
-                                {% endfor %}
-                            {% endif %}
+                            <div class="card-body overflow-auto">
+                                {% if workout.workoutExercises is empty %}
+                                    <p class="text-muted">Nenhum exercício</p>
+                                {% else %}
+                                    {% for exec in workout.workoutExercises %}
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <div>
+                                                {{ exec.position }} – {{ exec.exercise.name }}
+                                                <small class="text-muted">
+                                                    ({{ exec.exerciseExecution.short }})
+                                                </small>
+                                            </div>
+
+                                            <div class="d-flex gap-2">
+                                                <a
+                                                    href="{{ path('admin', {
+                                                        crudAction: 'edit',
+                                                        crudControllerFqcn: 'App\\Controller\\Admin\\WorkoutExerciseCrudController',
+                                                        entityId: exec.id
+                                                    }) }}"
+                                                    class="text-muted text-decoration-none"
+                                                    data-bs-toggle="tooltip"
+                                                    title="Editar exercício"
+                                                >
+                                                    <i class="fa fa-pen"></i>
+                                                </a>
+
+                                                <a
+                                                    href="{{ path('admin', {
+                                                        crudAction: 'delete',
+                                                        crudControllerFqcn: 'App\\Controller\\Admin\\WorkoutExerciseCrudController',
+                                                        entityId: exec.id
+                                                    }) }}"
+                                                    class="text-danger text-decoration-none"
+                                                    data-bs-toggle="tooltip"
+                                                    title="Excluir exercício"
+                                                >
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                {% endif %}
+                            </div>
+                            <div class="card-footer d-flex justify-content-end align-items-center">
+                                <button
+                                    class="btn btn-sm btn-icon open-exercise-modal"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#add_exercise_modal"
+                                    data-workout-id="{{ workout.id }}"
+                                    data-workout-name="{{ workout.name }}"
+                                    title="Incluir Exercício"
+                                >
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
+    {% include 'admin/workout_models/components/_add_exercise_modal.html.twig' with{
+        exercises: exercises,
+        exerciseExecutions: exerciseExecutions
+    } %}
 {% endblock %}
+
 
