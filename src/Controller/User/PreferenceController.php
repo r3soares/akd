@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\User;
 
 use App\Service\GlobalVars;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,10 +13,10 @@ final class PreferenceController extends AbstractController
     function __construct(private readonly GlobalVars $globalVars)
     {}
 
-    //#[Route('/profile/preference', name: 'app_preference')]
+    //#[Route('/user/preference', name: 'app_preference')]
     public function index(): Response
     {
-        return $this->render('preference/index.html.twig', [
+        return $this->render('user/preference/index.html.twig', [
             'controller_name' => 'PreferenceController',
         ]);
     }
@@ -26,6 +26,6 @@ final class PreferenceController extends AbstractController
     {
         $currentTheme = $this->globalVars->theme;
         $this->globalVars->theme = ($currentTheme == 'light') ? 'dark' : 'light';
-        return $this->redirect($request->headers->get('referer') ?? $this->generateUrl('app_home'));
+        return $this->redirect($request->headers->get('referer') ?? $this->generateUrl('user_home'));
     }
 }

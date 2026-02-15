@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Controller\Admin\Models;
+namespace App\Controller\Manager;
 
 use App\Repository\ExerciseExecutionRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\WorkoutRepository;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
-use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class WorkoutModelController extends AbstractController
 {
-
-    #[Route('/admin/workout-models', name: 'admin_workout_models')]
+    #[Route('/manager/workout-models', name: 'manager_workout_models')]
     public function index(
         WorkoutRepository $workoutRepository,
         ExerciseRepository $exerciseRepository,
-        ExerciseExecutionRepository $exerciseExecutionRepository,
-        AdminContext $context): Response
+        ExerciseExecutionRepository $exerciseExecutionRepository): Response
     {
         $workouts = $workoutRepository->findBy([
             'trainee' => null
@@ -29,11 +25,16 @@ class WorkoutModelController extends AbstractController
 
         $exercicesExecutions = $exerciseExecutionRepository->findAll();
 
-        return $this->render('admin/workout_models/index.html.twig', [
+        return $this->render('manager/workout_models/index.html.twig', [
             'workouts' => $workouts,
             'exercises' => $exercises,
-            'exerciseExecutions' => $exercicesExecutions,
-            'ea' => $context
+            'exerciseExecutions' => $exercicesExecutions
         ]);
+    }
+
+    #[Route('/manager/workout-models/add', name: 'manager_workout_models_add')]
+    public function add()
+    {
+
     }
 }

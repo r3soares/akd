@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\User;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class WorkoutController extends AbstractController
 {
-    #[Route('/profile/workout', name: 'app_workout')]
+    #[Route('/user/workout', name: 'user_workout')]
     public function index(): Response
     {
-        return $this->render('workout/index.html.twig', [
+        return $this->render('user/workout/index.html.twig', [
             'controller_name' => 'WorkoutController',
             'workouts' => [
                 'Treino A' => [

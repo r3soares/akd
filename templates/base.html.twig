@@ -13,7 +13,7 @@
         {% endblock %}
     </head>
     <body>
-    {{ render(controller('App\\Controller\\NavController::index')) }}
+    {{ render(controller('App\\Controller\\BaseNavController::index')) }}
     <div class="container m-5"></div>
     <div class="container mt-3">
         {% for label, messages in app.flashes %}

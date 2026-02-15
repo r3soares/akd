@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block styles %}
+    {{ encore_entry_link_tags('home') }}
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            {% for name, data in routes %}
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ asset('build/img/akd_generico.png') }}" class="card-img-top mt-1" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">{{ data.desc }}.</p>
+                        <a href="{{ path(data.route) }}" class="btn btn-primary">{{ name }}</a>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('home') }}
+{% endblock %}

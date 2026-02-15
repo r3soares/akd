@@ -21,9 +21,9 @@
 
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">Atualizar</button>
-                    <a href="{{ path('app_home') }}" class="btn btn-secondary me-4">Voltar</a>
+                    <a href="{{ path('user_home') }}" class="btn btn-secondary me-4">Voltar</a>
                     <!-- Button trigger modal -->
-                    <a href="{{ path('app_perfil_change_password') }}" class="btn btn-link">Alterar Senha</a>
+                    <a href="{{ path('user_perfil_change_password') }}" class="btn btn-link">Alterar Senha</a>
                 </div>
                 {# Token de segurança para evitar o CSRF #}
                 {{ form_widget(userForm._token) }}

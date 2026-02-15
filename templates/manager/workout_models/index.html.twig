@@ -1,15 +1,15 @@
-{% extends '@EasyAdmin/page/content.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block configured_javascripts %}
+{% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('workout_models') }}
 {% endblock %}
 
-{% block content_top_header %}
+{% block title %}
     <h1>Modelos Cadastrados</h1>
 {% endblock %}
 
-{% block content %}
+{% block body %}
     <div class="container-fluid">
         <div class="row align-items-start">
             <div class="row g-3 align-items-start">
@@ -94,7 +94,7 @@
             </div>
         </div>
     </div>
-    {% include 'admin/workout_models/components/_add_exercise_modal.html.twig' with{
+    {% include 'manager/workout_models/components/_add_exercise_modal.html.twig' with{
         exercises: exercises,
         exerciseExecutions: exerciseExecutions
     } %}

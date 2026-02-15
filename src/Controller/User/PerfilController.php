@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\User;
 
 use App\Form\ChangePasswordFormType;
 use App\Form\UserFormType;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class PerfilController extends AbstractController
 {
-    #[Route('/profile/perfil', name: 'app_perfil')]
+    #[Route('/user/perfil', name: 'user_perfil')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -29,13 +29,13 @@ final class PerfilController extends AbstractController
             $this->addFlash('success', 'Perfil atualizado com sucesso!');
         }
 
-        return $this->render('perfil/index.html.twig', [
+        return $this->render('user/perfil/index.html.twig', [
             'controller_name' => 'PerfilController',
             'userForm' => $form
         ]);
     }
 
-    #[Route('/profile/perfil/senha', name: 'app_perfil_change_password')]
+    #[Route('/user/perfil/senha', name: 'user_perfil_change_password')]
     public function updatePassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $form = $this->createForm(ChangePasswordFormType::class);
@@ -52,9 +52,9 @@ final class PerfilController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Senha atualizada com sucesso!');
-            return $this->redirectToRoute('app_perfil');
+            return $this->redirectToRoute('user_perfil');
         }
 
-        return $this->render('perfil/change_password.html.twig', ['changePasswordForm' => $form]);
+        return $this->render('user/perfil/change_password.html.twig', ['changePasswordForm' => $form]);
     }
 }

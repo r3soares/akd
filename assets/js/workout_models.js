@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.querySelectorAll(".dropdown").forEach(dropdown => {
             const input = dropdown.querySelector("input.form-control");
             const menu = dropdown.querySelector(".dropdown-menu");
-            const hidden = dropdown.querySelector("input[type='hidden']");
 
             if (!input || !menu) return;
 
