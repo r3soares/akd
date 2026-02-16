@@ -1,6 +1,6 @@
 <div class="modal fade" id="add_exercise_modal" tabindex="-1">
 
-    <div class="modal-dialog" id="add_exercise_modal_dialog">
+    <div class="modal-dialog" id="exercise_modal_dialog">
 
         <div class="modal-content">
 
@@ -13,7 +13,7 @@
 
             <!-- Corpo -->
             <div class="modal-body">
-                <form id="add_exercise_form" method="POST" action="{{ path('manager_workout_add') }}">
+                <form id="exercise_form" method="POST" action="{{ path('manager_workout_add') }}">
                     <input type="hidden" id="workout_id" name="workout">
                     {#Lista de Exercícios#}
                     <div class="mb-3">
@@ -75,7 +75,7 @@
                 <!-- botão submit do form -->
                 <button type="submit"
                         class="btn btn-primary"
-                        form="add_exercise_form">
+                        form="exercise_form">
                     Incluir
                 </button>
             </div>
