@@ -13,7 +13,7 @@
 
             <!-- Corpo -->
             <div class="modal-body">
-                <form>
+                <form id="add_exercise_form" method="POST" action="{{ path('manager_workout_models_add') }}">
                     <input type="hidden" id="workout_id" name="workout">
                     {#Lista de Exercícios#}
                     <div class="mb-3">
@@ -76,7 +76,7 @@
                 <button type="submit"
                         class="btn btn-primary"
                         form="add_exercise_form">
-                    Salvar
+                    Incluir
                 </button>
             </div>
 

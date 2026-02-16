@@ -5,13 +5,9 @@
  * which should already be in your base.html.twig.
  */
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap';
 import './styles/app.css';
 
 import { Tooltip } from 'bootstrap';
-
-// ...existing code...
-
 // Ativar tooltips
 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 tooltipTriggerList.map(function (tooltipTriggerEl) {

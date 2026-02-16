@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    {{ parent() }}
     {{ encore_entry_script_tags('workout_models') }}
 {% endblock %}
 
@@ -27,7 +26,7 @@
                                    data-bs-toggle="tooltip"
                                    title="Editar treino"
                                 >
-                                    <i class="fa fa-pen"></i>
+                                    {{ ux_icon('material-symbols:edit') }}
                                 </a>
                             </div>
 
@@ -55,7 +54,7 @@
                                                     data-bs-toggle="tooltip"
                                                     title="Editar exercício"
                                                 >
-                                                    <i class="fa fa-pen"></i>
+                                                    {{ ux_icon('material-symbols:edit') }}
                                                 </a>
 
                                                 <a
@@ -68,7 +67,7 @@
                                                     data-bs-toggle="tooltip"
                                                     title="Excluir exercício"
                                                 >
-                                                    <i class="fa fa-trash"></i>
+                                                    {{ ux_icon('material-symbols:delete') }}
                                                 </a>
                                             </div>
                                         </div>
@@ -85,7 +84,7 @@
                                     data-workout-name="{{ workout.name }}"
                                     title="Incluir Exercício"
                                 >
-                                    <i class="fa fa-plus"></i>
+                                    {{ ux_icon('material-symbols:add', { style: 'font-size: 1.4rem;' }) }}
                                 </button>
                             </div>
                         </div>
