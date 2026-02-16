@@ -1,0 +1,61 @@
+<div class="modal fade" id="new_exercise_modal" tabindex="-1">
+
+    <div class="modal-dialog" id="new_exercise_modal_dialog">
+
+        <div class="modal-content">
+
+            <!-- Cabeçalho -->
+            <div class="modal-header">
+                <h5 class="modal-title">Novo</h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Corpo -->
+            <div class="modal-body">
+                <form id="exercise_form" method="POST" action="{{ path('manager_exercise_new') }}">
+
+                    <div class="mb-3">
+                        <label for="new_exercise_name" class="form-label">Nome</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="new_exercise_name"
+                            name="name"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="new_exercise_description" class="form-label">Descrição</label>
+                        <textarea
+                            class="form-control"
+                            name="description"
+                            id="new_exercise_description"
+                            rows="3"
+                            placeholder="Opcional"
+                        ></textarea>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Rodapé -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <!-- botão submit do form -->
+                <button type="submit"
+                        class="btn btn-primary"
+                        form="exercise_form">
+                    Incluir
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
