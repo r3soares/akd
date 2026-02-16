@@ -19,7 +19,18 @@ class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
-        return parent::index();
+        //return parent::index();
+
+        // Injetando o AdminUrlGenerator
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+
+        // Redireciona para o CRUD de Exercícios, por exemplo
+        $url = $adminUrlGenerator
+            ->setController(ExerciseCrudController::class) // Controller CRUD
+            ->setAction('index') // ação padrão do CRUD
+            ->generateUrl();
+
+        return $this->redirect($url);
     }
 
     public function configureDashboard(): Dashboard
@@ -35,10 +46,5 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Execuções', 'fas fa-play', ExerciseExecution::class);
         yield MenuItem::linkToCrud('Treinos', 'fas fa-clipboard-list', Workout::class);
         yield MenuItem::linkToCrud('Grupos de Treinos', 'fas fa-list-check', WorkoutExercise::class);
-        yield MenuItem::linkToRoute(
-            'Modelos de Treino',
-            'fa fa-layer-group',
-            'admin_workout_models'
-        );
     }
 }
