@@ -13,7 +13,7 @@ final class HomeController extends AbstractController
     {
         return $this->render('manager/home/index.html.twig', [
             'routes' => [
-                'Treinos' => ['route' => 'manager_workout_models', 'desc' => 'Cadastre seus treinos'],
+                'Treinos' => ['route' => 'manager_workout', 'desc' => 'Cadastre seus treinos'],
             ],
         ]);
     }

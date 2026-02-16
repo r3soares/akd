@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('workout_models') }}
+    {{ encore_entry_script_tags('manager_workout') }}
 {% endblock %}
 
 {% block title %}
@@ -75,16 +75,16 @@
 
                                 {% endif %}
                             </div>
-                            <div class="card-footer d-flex justify-content-end align-items-center">
+                            <div class="card-footer d-flex justify-content-start align-items-center">
                                 <button
-                                    class="btn btn-sm btn-icon open-exercise-modal"
+                                    class="btn btn-sm btn-secondary open-exercise-modal"
                                     data-bs-toggle="modal"
                                     data-bs-target="#add_exercise_modal"
                                     data-workout-id="{{ workout.id }}"
                                     data-workout-name="{{ workout.name }}"
-                                    title="Incluir Exercício"
                                 >
                                     {{ ux_icon('material-symbols:add', { style: 'font-size: 1.4rem;' }) }}
+                                    Exercício
                                 </button>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
             </div>
         </div>
     </div>
-    {% include 'manager/workout_models/components/_add_exercise_modal.html.twig' with{
+    {% include 'manager/workout/components/_add_exercise_modal.html.twig' with{
         exercises: exercises,
         exerciseExecutions: exerciseExecutions
     } %}

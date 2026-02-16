@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class WorkoutModelController extends AbstractController
 {
-    #[Route('/manager/workout-models', name: 'manager_workout_models')]
+    #[Route('/manager/workout', name: 'manager_workout')]
     public function index(
         WorkoutRepository $workoutRepository,
         ExerciseRepository $exerciseRepository,
@@ -30,14 +30,14 @@ class WorkoutModelController extends AbstractController
 
         $exercicesExecutions = $exerciseExecutionRepository->findAll();
 
-        return $this->render('manager/workout_models/index.html.twig', [
+        return $this->render('manager/workout/index.html.twig', [
             'workouts' => $workouts,
             'exercises' => $exercises,
             'exerciseExecutions' => $exercicesExecutions
         ]);
     }
 
-    #[Route('/manager/workout-models/add', name: 'manager_workout_models_add', methods: ['POST']) ]
+    #[Route('/manager/workout/add', name: 'manager_workout_add', methods: ['POST']) ]
     public function add(
         Request $request,
         WorkoutRepository $workoutRepository,
@@ -70,7 +70,7 @@ class WorkoutModelController extends AbstractController
 
             if($duplicated){
                 $this->addFlash('warning', 'Este exercício já existe neste treino');
-                return $this->redirectToRoute('manager_workout_models');
+                return $this->redirectToRoute('manager_workout');
             }
         }
 
@@ -88,6 +88,6 @@ class WorkoutModelController extends AbstractController
         //$entityManager->persist($workout);
         //$entityManager->flush();
 
-        return $this->redirectToRoute('manager_workout_models'); // ou qualquer página de volta
+        return $this->redirectToRoute('manager_workout'); // ou qualquer página de volta
     }
 }
