@@ -7,6 +7,7 @@ use App\Repository\ExerciseExecutionRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\WorkoutExerciseRepository;
 use App\Repository\WorkoutRepository;
+use App\Routes\RouteName;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -14,9 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/manager/workout')]
 class WorkoutController extends AbstractController
 {
-    #[Route('/manager/workout', name: 'manager_workout')]
+    #[Route('', RouteName::MANAGER_WORKOUT)]
     public function index(
         WorkoutRepository $workoutRepository,
         ExerciseRepository $exerciseRepository,
@@ -37,8 +39,8 @@ class WorkoutController extends AbstractController
         ]);
     }
 
-    #[Route('/manager/workout/add', name: 'manager_workout_add', methods: ['POST']) ]
-    public function add(
+    #[Route('/create', name: RouteName::MANAGER_WORKOUT_CREATE, methods: ['POST']) ]
+    public function create(
         Request $request,
         WorkoutRepository $workoutRepository,
         WorkoutExerciseRepository  $workoutExerciseRepository,
@@ -70,7 +72,7 @@ class WorkoutController extends AbstractController
 
             if($duplicated){
                 $this->addFlash('warning', 'Este exercício já existe neste treino');
-                return $this->redirectToRoute('manager_workout');
+                return $this->redirectToRoute(RouteName::MANAGER_WORKOUT);
             }
         }
 
@@ -84,10 +86,9 @@ class WorkoutController extends AbstractController
         // Aqui você adiciona o exercício ao workout
         $workout->addWorkoutExercise($workoutExercise);
 
-        dd($workout);
-        //$entityManager->persist($workout);
-        //$entityManager->flush();
+        $entityManager->persist($workout);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('manager_workout'); // ou qualquer página de volta
+        return $this->redirectToRoute(RouteName::MANAGER_WORKOUT); // ou qualquer página de volta
     }
 }

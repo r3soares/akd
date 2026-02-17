@@ -2,6 +2,7 @@
 
 namespace App\Controller\User;
 
+use App\Routes\RouteName;
 use App\Service\GlobalVars;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ final class PreferenceController extends AbstractController
     function __construct(private readonly GlobalVars $globalVars)
     {}
 
-    //#[Route('/user/preference', name: 'app_preference')]
+    #[Route('/user/preference', name: RouteName::USER_PREFERENCE)]
     public function index(): Response
     {
         return $this->render('user/preference/index.html.twig', [
@@ -21,7 +22,7 @@ final class PreferenceController extends AbstractController
         ]);
     }
 
-    #[Route(null, name: 'app_preference_change_theme')]
+    #[Route(null, name: RouteName::APP_PREFERENCE_CHANGE_THEME)]
     public function changeTheme(Request $request) : Response
     {
         $currentTheme = $this->globalVars->theme;

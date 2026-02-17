@@ -2,27 +2,29 @@
 
 namespace App\Service;
 
+use App\Routes\RouteName;
+
 class NavService
 {
     private array $roleRoutes = [
         'ROLE_USER' => [
-            'Home' => 'user_home',
-            'Perfil' => 'user_perfil',
-            'Cronograma' => 'user_schedule',
-            'Meus Treinos' => 'user_workout',
+            'Home' => RouteName::USER_HOME,
+            'Perfil' => RouteName::USER_PERFIL,
+            'Cronograma' => RouteName::USER_SCHEDULE,
+            'Meus Treinos' => RouteName::USER_SCHEDULE,
         ],
         'ROLE_MANAGER' => [
-            'Home' => 'manager_home',
+            'Home' => RouteName::MANAGER_HOME,
         ],
         'ROLE_ADMIN' => [
-            'Home' => 'admin',
+            'Home' => RouteName::ADMIN,
         ],
     ];
 
     private array $homeRoleRoute = [
-        'ROLE_USER' => 'user_home',
-        'ROLE_MANAGER' => 'manager_home',
-        'ROLE_ADMIN' => 'admin',
+        'ROLE_USER' => RouteName::USER_HOME,
+        'ROLE_MANAGER' => RouteName::MANAGER_HOME,
+        'ROLE_ADMIN' => RouteName::USER_HOME,
     ];
 
     public function getRoleNames() {

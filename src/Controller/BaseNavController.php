@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Routes\RouteName;
 use App\Service\NavService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,10 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/nav')]
 final class BaseNavController extends AbstractController
 {
     public function __construct(private NavService $navService) {}
-    #[Route('/nav', name: 'app_nav')]
+    #[Route('', RouteName::APP_NAV)]
     public function index(Request $request, SessionInterface $session): Response
     {
         $user = $this->getUser();
@@ -45,7 +47,7 @@ final class BaseNavController extends AbstractController
         ]);
     }
 
-    #[Route('/nav/switch-role/{role}', name: 'app_switch_role')]
+    #[Route('/switch-role/{role}', name: RouteName::APP_SWITCH_ROLE)]
     public function switchRole(string $role, SessionInterface $session): Response
     {
         $userRoles = $this->getUser()->getRoles();
@@ -55,7 +57,6 @@ final class BaseNavController extends AbstractController
         }
 
         $session->set('active_role', $role);
-
         return $this->redirectToRoute($this->navService->getHomeRoleRoute($role));
     }
 
@@ -63,8 +64,8 @@ final class BaseNavController extends AbstractController
     {
         return $this->render('nav/visitor.html.twig', [
             'routes' => [
-                'Home' => 'app_visitor',
-                'About' => 'app_visitor',
+                'Home' => RouteName::APP_VISITOR,
+                'About' => RouteName::APP_VISITOR,
             ],
         ]);
     }

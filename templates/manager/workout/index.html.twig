@@ -17,11 +17,7 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-center">
                                 <span class="fw-bold">{{ workout.name }}</span>
-                                <a href="{{ path('admin', {
-                                    crudAction: 'edit',
-                                    crudControllerFqcn: 'App\\Controller\\Admin\\WorkoutCrudController',
-                                    entityId: workout.id
-                                }) }}"
+                                <a href="#"
                                    class="text-muted text-decoration-none"
                                    data-bs-toggle="tooltip"
                                    title="Editar treino"
@@ -45,11 +41,7 @@
 
                                             <div class="d-flex gap-2">
                                                 <a
-                                                    href="{{ path('admin', {
-                                                        crudAction: 'edit',
-                                                        crudControllerFqcn: 'App\\Controller\\Admin\\WorkoutExerciseCrudController',
-                                                        entityId: exec.id
-                                                    }) }}"
+                                                    href="#"
                                                     class="text-muted text-decoration-none"
                                                     data-bs-toggle="tooltip"
                                                     title="Editar exercício"
@@ -58,11 +50,7 @@
                                                 </a>
 
                                                 <a
-                                                    href="{{ path('admin', {
-                                                        crudAction: 'delete',
-                                                        crudControllerFqcn: 'App\\Controller\\Admin\\WorkoutExerciseCrudController',
-                                                        entityId: exec.id
-                                                    }) }}"
+                                                    href="#"
                                                     class="text-danger text-decoration-none"
                                                     data-bs-toggle="tooltip"
                                                     title="Excluir exercício"
@@ -93,7 +81,7 @@
             </div>
         </div>
     </div>
-    {% include 'manager/workout/components/_add_exercise_modal.html.twig' with{
+    {% include 'manager/workout/components/_include_exercise_modal.html.twig' with{
         exercises: exercises,
         exerciseExecutions: exerciseExecutions
     } %}

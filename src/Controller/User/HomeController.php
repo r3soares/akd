@@ -2,13 +2,15 @@
 
 namespace App\Controller\User;
 
+use App\Routes\RouteName;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+#[Route('/user')]
 final class HomeController extends AbstractController
 {
-    #[Route('/user/', name: 'user_home')]
+    #[Route('', name: RouteName::USER_HOME)]
     public function index(): Response
     {
         return $this->render('user/home/index.html.twig', [

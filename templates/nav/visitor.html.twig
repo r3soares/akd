@@ -15,12 +15,12 @@
 			<ul class="navbar-nav ms-auto">
                 {{ include('nav/theme.html.twig') }}
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path('app_login') }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Login">
+					<a class="nav-link" href="{{ path(route('APP_LOGIN')) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Login">
                         {{ ux_icon('material-symbols:login') }}
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path('app_register') }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Registre-se">
+					<a class="nav-link" href="{{ path(route('APP_REGISTER')) }}" data-bs-toggle="tooltip" data-bs-placement="left" title="Registre-se">
                         {{ ux_icon('mdi:register-outline') }}
 					</a>
 				</li>
