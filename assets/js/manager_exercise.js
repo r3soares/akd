@@ -15,4 +15,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
     });
+
+    //Preenche os campos ao Editar
+    document.querySelectorAll('.open-exercise_modal').forEach(button => {
+
+        const {
+            id = '',
+            name = '',
+            description = ''
+        } = button.dataset;
+
+        const form = document.getElementById('exercise_form');
+
+        button.addEventListener('click', () => {
+
+            document.getElementById('exercise_name').value = name;
+            document.getElementById('exercise_description').value = description;
+            form.action = id ?
+                form.dataset.editTemplate.replace('__id__', id)
+                : form.dataset.create;
+
+        });
+
+    });
+
 });

@@ -53,4 +53,29 @@ class ExerciseController extends AbstractController
         $this->addFlash('success', "{$exercise->getName()} criado com sucesso");
         return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
     }
+
+    #[Route('/edit/{id}', name: RouteName::MANAGER_EXERCISE_EDIT, methods: ['POST'])]
+    public function edit(
+        Exercise $exercise,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator
+    ): RedirectResponse {
+
+        $exercise->setName($request->request->get('name'));
+        $exercise->setDescription($request->request->get('description'));
+
+        $errors = $validator->validate($exercise);
+        if(count($errors) > 0){
+            $this->addFlash('warning',$errors[0]->getMessage());
+            return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+        }
+
+        $entityManager->flush();
+
+        $this->addFlash('success', "{$exercise->getName()} atualizado com sucesso");
+        return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+    }
+
+
 }

@@ -1,6 +1,6 @@
-<div class="modal fade" id="new_exercise_modal" tabindex="-1">
+<div class="modal fade" id="exercise_modal" tabindex="-1">
 
-    <div class="modal-dialog" id="new_exercise_modal_dialog">
+    <div class="modal-dialog" id="exercise_modal_dialog">
 
         <div class="modal-content">
 
@@ -13,25 +13,30 @@
 
             <!-- Corpo -->
             <div class="modal-body">
-                <form id="exercise_form" method="POST" action="{{ path(route('MANAGER_EXERCISE_CREATE')) }}">
+                <form
+                    id="exercise_form"
+                    method="POST"
+                    data-edit-template="{{ path(route('MANAGER_EXERCISE_EDIT'), { id: '__id__' }) }}"
+                    data-create="{{ path(route('MANAGER_EXERCISE_CREATE')) }}"
+                >
 
                     <div class="mb-3">
-                        <label for="new_exercise_name" class="form-label">Nome</label>
+                        <label for="exercise_name" class="form-label">Nome</label>
                         <input
                             type="text"
                             class="form-control"
-                            id="new_exercise_name"
+                            id="exercise_name"
                             name="name"
                             required
                         >
                     </div>
 
                     <div class="mb-3">
-                        <label for="new_exercise_description" class="form-label">Descrição</label>
+                        <label for="exercise_description" class="form-label">Descrição</label>
                         <textarea
                             class="form-control"
                             name="description"
-                            id="new_exercise_description"
+                            id="exercise_description"
                             rows="3"
                             placeholder="Opcional"
                         ></textarea>
@@ -50,7 +55,7 @@
                 <button type="submit"
                         class="btn btn-primary"
                         form="exercise_form">
-                    Incluir
+                    Salvar
                 </button>
             </div>
 

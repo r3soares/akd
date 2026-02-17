@@ -29,9 +29,10 @@
                     </div>
 
                     {# Botão novo #}
-                    <button class="btn btn-sm btn-secondary open-new_exercise_modal"
+                    <button class="btn btn-sm btn-secondary open-exercise_modal"
                        data-bs-toggle="modal"
-                       data-bs-target="#new_exercise_modal">
+                       data-bs-target="#exercise_modal"
+                    >
                         {{ ux_icon('material-symbols:add') }}
                         Novo
                     </button>
@@ -58,10 +59,16 @@
                                 </td>
 
                                 <td class="d-flex justify-content-center">
-                                    <a href="#"
-                                       class="btn btn-sm btn-outline-primary mx-3">
+                                    {# Botão Edit #}
+                                    <button class="btn btn-sm btn-outline-primary mx-3 open-exercise_modal"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exercise_modal"
+                                    data-id="{{ exec.id }}"
+                                    data-name="{{ exec.name }}"
+                                    data-description="{{ exec.description }}"
+                                    >
                                         {{ ux_icon('material-symbols:edit') }}
-                                    </a>
+                                    </button>
 
                                     <button class="btn btn-sm btn-outline-danger">
                                         {{ ux_icon('material-symbols:delete') }}
