@@ -44,6 +44,10 @@ class ExerciseService
             throw new \DomainException('Exercício não encontrado.');
         }
 
+        if($exercise->getWorkoutExercises()){
+            throw new \DomainException('Este exercício está vinculado a um ou mais treinos');
+        }
+
         $this->entityManager->remove($exercise);
         $this->entityManager->flush();
     }

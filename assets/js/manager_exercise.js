@@ -40,4 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
+    document.querySelectorAll('.delete-form').forEach(form => {
+
+        form.addEventListener('submit', (event) => {
+            const confirmed = confirm('Confirma a exclusão deste exercício?');
+
+            if (!confirmed) {
+                event.preventDefault();
+            }
+        })
+
+    });
+
 });

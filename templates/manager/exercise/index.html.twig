@@ -70,9 +70,17 @@
                                         {{ ux_icon('material-symbols:edit') }}
                                     </button>
 
-                                    <button class="btn btn-sm btn-outline-danger">
-                                        {{ ux_icon('material-symbols:delete') }}
-                                    </button>
+                                    {# Botão Delete #}
+                                    <form class="delete-form"
+                                        method="post"
+                                        action="{{ path(route('MANAGER_EXERCISE_DELETE'), { id: exec.id }) }}"
+                                    >
+                                        <button class="btn btn-sm btn-outline-danger"
+                                                type="submit"
+                                        >
+                                            {{ ux_icon('material-symbols:delete') }}
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         {% else %}

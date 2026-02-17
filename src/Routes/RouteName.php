@@ -30,6 +30,7 @@ final class RouteName
     public const MANAGER_EXERCISE = 'manager_exercise';
     public const MANAGER_EXERCISE_CREATE = 'manager_exercise_create';
     public const MANAGER_EXERCISE_EDIT = 'manager_exercise_edit';
+    public const MANAGER_EXERCISE_DELETE = 'manager_exercise_delete';
     public const MANAGER_WORKOUT = 'manager_workout';
     public const MANAGER_WORKOUT_CREATE = 'manager_workout_create';
 

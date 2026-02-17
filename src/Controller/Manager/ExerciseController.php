@@ -81,6 +81,27 @@ class ExerciseController extends AbstractController
         return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
     }
 
+    #[Route('/delete/{id}', name: RouteName::MANAGER_EXERCISE_DELETE, methods: ['POST'])]
+    public function delete(
+        Exercise $exercise
+    ): RedirectResponse {
+
+        try {
+
+            $this->exerciseService->delete($exercise->getId());
+
+            $this->addFlash('success', "{$exercise->getName()} excluído com sucesso");
+
+        } catch (\Exception $e) {
+
+            $this->addFlash('warning', $e->getMessage());
+
+        }
+
+        return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+    }
+
+
 
 
 }
