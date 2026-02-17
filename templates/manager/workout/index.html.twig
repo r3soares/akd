@@ -33,7 +33,7 @@
                                     {% for exec in workout.workoutExercises %}
                                         <div class="d-flex justify-content-between align-items-center mb-1">
                                             <div>
-                                                {{ exec.position }} – {{ exec.exercise.name }}
+                                                {{ exec.position }} – {{ exec.exercise.name|title }}
                                                 <small class="text-muted">
                                                     ({{ exec.exerciseExecution.short }})
                                                 </small>

@@ -7,6 +7,7 @@ namespace App\Controller\Manager;
 use App\Entity\Exercise;
 use App\Repository\ExerciseRepository;
 use App\Routes\RouteName;
+use App\Service\ExerciseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -19,6 +20,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route('/manager/exercise')]
 class ExerciseController extends AbstractController
 {
+    public function __construct(
+        private ExerciseService $exerciseService
+    ){}
+
     #[Route('', name: RouteName::MANAGER_EXERCISE)]
     public function index(ExerciseRepository $exerciseRepository,): Response
     {
@@ -31,51 +36,51 @@ class ExerciseController extends AbstractController
 
     #[Route('/create', name: RouteName::MANAGER_EXERCISE_CREATE, methods: ['POST'])]
     public function create(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        ValidatorInterface $validator
+        Request $request
     ): RedirectResponse
     {
-        $exercise = new Exercise();
+        try {
 
-        $exercise->setName($request->request->get('name'));
-        $exercise->setDescription($request->request->get('description'));
+            $exercise = $this->exerciseService->create(
+                $request->request->get('name'),
+                $request->request->get('description')
+            );
 
-        $errors = $validator->validate($exercise);
-        if(count($errors) > 0){
-            $this->addFlash('warning',$errors[0]->getMessage());
-            return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+            $this->addFlash('success', "{$exercise->getName()} criado com sucesso");
+
+        } catch (\InvalidArgumentException $e) {
+
+            $this->addFlash('warning', $e->getMessage());
+
         }
 
-        $entityManager->persist($exercise);
-        $entityManager->flush();
-
-        $this->addFlash('success', "{$exercise->getName()} criado com sucesso");
         return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
     }
 
     #[Route('/edit/{id}', name: RouteName::MANAGER_EXERCISE_EDIT, methods: ['POST'])]
     public function edit(
         Exercise $exercise,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        ValidatorInterface $validator
+        Request $request
     ): RedirectResponse {
 
-        $exercise->setName($request->request->get('name'));
-        $exercise->setDescription($request->request->get('description'));
+        try {
+            $exercise = $this->exerciseService->update(
+                $exercise,
+                $request->request->get('name'),
+                $request->request->get('description')
+            );
 
-        $errors = $validator->validate($exercise);
-        if(count($errors) > 0){
-            $this->addFlash('warning',$errors[0]->getMessage());
-            return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+            $this->addFlash('success', "{$exercise->getName()} atualizado com sucesso");
+
+        } catch (\InvalidArgumentException | \DomainException $e) {
+
+            $this->addFlash('warning', $e->getMessage());
+
         }
 
-        $entityManager->flush();
-
-        $this->addFlash('success', "{$exercise->getName()} atualizado com sucesso");
         return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
     }
+
 
 
 }

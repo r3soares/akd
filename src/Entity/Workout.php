@@ -49,7 +49,7 @@ class Workout
 
     public function setName(string $name): static
     {
-        $this->name = $name;
+        $this->name = mb_strtolower(trim($name));
 
         return $this;
     }

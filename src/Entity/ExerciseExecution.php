@@ -44,7 +44,7 @@ class ExerciseExecution
 
     public function setShort(string $short): static
     {
-        $this->short = $short;
+        $this->$short = mb_strtolower(trim($short));
 
         return $this;
     }

@@ -46,7 +46,7 @@ class Exercise
 
     public function setName(string $name): static
     {
-        $this->name = $name;
+        $this->name = mb_strtolower(trim($name));
 
         return $this;
     }
@@ -58,7 +58,7 @@ class Exercise
 
     public function setDescription(?string $description): static
     {
-        $this->description = $description;
+        $this->description = $description !== null ? trim($description) : null;
 
         return $this;
     }
