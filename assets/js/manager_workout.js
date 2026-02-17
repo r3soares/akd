@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const modal = document.getElementById('add_exercise_modal');
+    const modal = document.getElementById('exercise_modal');
 
-    if (!modal) return;
+    if (!modal){
+        console.warn('Modal não encontrado');
+    }
 
+    //Em vez de procurar os botoes, pega o botao que disparou o evento
     modal.addEventListener('show.bs.modal', function (event) {
 
         //Busca o botão que disparou o evento
@@ -14,8 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const workoutName = button.dataset.workoutName;
 
         //Adiciona os dados ao formulário do modal
-        const form = document.getElementById('add_exercise_modal_dialog');
-        if(!form) return;
+        const form = document.getElementById('exercise_modal_dialog');
+        if(!form){
+            console.warn('Formulário não encontrado');
+        }
 
         // input hidden dentro do form
         const workoutInput = form.querySelector('#workout_id');
@@ -64,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // inicializa os dropdowns dentro do modal add_exercise_modal
-    setupDropdowns("#add_exercise_modal");
+    setupDropdowns("#exercise_modal");
 
     function setupAutocomplete(modalSelector) {
         const modal = document.querySelector(modalSelector);
@@ -106,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // inicializa autocomplete no modal
-    setupAutocomplete("#add_exercise_modal");
+    setupAutocomplete("#exercise_modal");
 
 });
 

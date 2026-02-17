@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     //Preenche os campos ao Editar
+    //Busca por todos os botões com a tag de abrir modal
     document.querySelectorAll('.open-exercise_modal').forEach(button => {
 
         const {

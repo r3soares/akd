@@ -67,7 +67,7 @@
                                 <button
                                     class="btn btn-sm btn-secondary open-exercise-modal"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#add_exercise_modal"
+                                    data-bs-target="#exercise_modal"
                                     data-workout-id="{{ workout.id }}"
                                     data-workout-name="{{ workout.name }}"
                                 >
@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    {% include 'manager/workout/components/_include_exercise_modal.html.twig' with{
+    {% include 'manager/workout/components/_exercise_modal.html.twig' with{
         exercises: exercises,
         exerciseExecutions: exerciseExecutions
     } %}

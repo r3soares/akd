@@ -21,7 +21,11 @@ class Workout
     /**
      * @var Collection<int, WorkoutExercise>
      */
-    #[ORM\OneToMany(targetEntity: WorkoutExercise::class, mappedBy: 'workout', orphanRemoval: true)]
+    #[ORM\OneToMany(
+        targetEntity: WorkoutExercise::class,
+        mappedBy: 'workout',
+        cascade: ['persist'],
+        orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $workoutExercises;
 
@@ -79,6 +83,37 @@ class Workout
 
         return $this;
     }
+
+    public function addExercise(
+        Exercise $exercise,
+        ExerciseExecution $execution
+    ): void {
+
+        $we = new WorkoutExercise();
+        $we->setExercise($exercise);
+        $we->setExerciseExecution($execution);
+
+        $this->addWorkoutExercise($we);
+    }
+
+    public function hasExercise(
+        Exercise $exercise,
+        ExerciseExecution $execution
+    ): bool {
+
+        foreach ($this->workoutExercises as $we) {
+            if (
+                $we->getExercise() === $exercise &&
+                $we->getExerciseExecution() === $execution
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     public function getTrainee(): ?User
     {

@@ -2,12 +2,12 @@
 
 namespace App\Controller\Manager;
 
-use App\Entity\WorkoutExercise;
 use App\Repository\ExerciseExecutionRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\WorkoutExerciseRepository;
 use App\Repository\WorkoutRepository;
 use App\Routes\RouteName;
+use App\Service\WorkoutService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -39,56 +39,33 @@ class WorkoutController extends AbstractController
         ]);
     }
 
-    #[Route('/create', name: RouteName::MANAGER_WORKOUT_CREATE, methods: ['POST']) ]
+    #[Route('/create', name: RouteName::MANAGER_WORKOUT_CREATE, methods: ['POST'])]
     public function create(
         Request $request,
-        WorkoutRepository $workoutRepository,
-        WorkoutExerciseRepository  $workoutExerciseRepository,
-        ExerciseRepository $exerciseRepository,
-        ExerciseExecutionRepository $exerciseExecutionRepository,
-        EntityManagerInterface $entityManager
-    ) : RedirectResponse
-    {
-        $workoutId = $request->request->get('workout');
-        $exerciseId = $request->request->get('exercise');
-        $executionId = $request->request->get('execution');
+        WorkoutService $workoutService
+    ): RedirectResponse {
 
-        // Buscar entidades
-        $workout = $workoutRepository->find($workoutId);
-        $exercise = $exerciseRepository->find($exerciseId);
-        $execution = $exerciseExecutionRepository->find($executionId);
+        try {
 
-        if (!$workout || !$exercise || !$execution) {
-            throw $this->createNotFoundException('Treino, Exercício ou Execução inválidos');
+            $workoutService->addExercise(
+                (int) $request->request->get('workout'),
+                (int) $request->request->get('exercise'),
+                (int) $request->request->get('execution')
+            );
+
+            $this->addFlash('success', 'Exercício adicionado');
+
+        } catch (\DomainException $e) {
+
+            $this->addFlash('warning', $e->getMessage());
+
+        } catch (\InvalidArgumentException $e) {
+
+            $this->addFlash('danger', $e->getMessage());
+
         }
 
-        $workoutExercise = $workoutExerciseRepository->findBy([
-            'exercise' => $exercise,
-            'exerciseExecution' => $execution
-        ]);
-
-        if($workoutExercise){
-            $duplicated = $workout->getWorkoutExercises()->contains($workoutExercise);
-
-            if($duplicated){
-                $this->addFlash('warning', 'Este exercício já existe neste treino');
-                return $this->redirectToRoute(RouteName::MANAGER_WORKOUT);
-            }
-        }
-
-        else{
-            $we = new WorkoutExercise();
-            $we->setExercise($exercise);
-            $we->setWorkout($workout);
-            $we->setExerciseExecution($execution);
-            $workoutExercise = $we;
-        }
-        // Aqui você adiciona o exercício ao workout
-        $workout->addWorkoutExercise($workoutExercise);
-
-        $entityManager->persist($workout);
-        $entityManager->flush();
-
-        return $this->redirectToRoute(RouteName::MANAGER_WORKOUT); // ou qualquer página de volta
+        return $this->redirectToRoute(RouteName::MANAGER_WORKOUT);
     }
+
 }
