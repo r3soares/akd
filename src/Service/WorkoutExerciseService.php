@@ -9,14 +9,17 @@ use App\Entity\WorkoutExercise;
 use App\Repository\ExerciseExecutionRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\WorkoutRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use function PHPUnit\Framework\equalTo;
 
 class WorkoutExerciseService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
+        private WorkoutService $workoutService,
     ) {}
 
     public function create(
@@ -59,7 +62,8 @@ class WorkoutExerciseService
         $workoutExercise->setWorkout($workout);
         $workoutExercise->setExercise($exercise);
         $workoutExercise->setExerciseExecution($exerciseExecution);
-        $position = max(0, $position) ?: count($workout->getWorkoutExercises());
+        //Organiza a ordem dos exercícios
+        $position = max(0, $position) ?: $this->workoutService->getLastPosition($workout->getWorkoutExercises()) + 1;
         $workoutExercise->setPosition($position);
 
         $errors = $this->validator->validate($workoutExercise);

@@ -14,9 +14,13 @@ class ExerciseExecutionService
         private EntityManagerInterface $entityManager
     ) {}
 
-    public function get(int $id): ExerciseExecution
+    public function get(int $id): Exercise
     {
-        return $this->repository->find($id);
+        $execution = $this->repository->find($id);
+        if (!$execution) {
+            throw new \DomainException('Execução não encontrada.');
+        }
+        return $execution;
     }
 
     public function create(string $short, string $description): ExerciseExecution

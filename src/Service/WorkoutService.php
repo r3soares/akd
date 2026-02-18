@@ -6,6 +6,7 @@ use App\Entity\Workout;
 use App\Repository\WorkoutRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\ExerciseExecutionRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 
 class WorkoutService
@@ -43,5 +44,14 @@ class WorkoutService
         $workout->addExercise($exercise, $execution);
 
         $this->entityManager->flush();
+    }
+
+    public function getLastPosition(Collection $workoutExercises): int
+    {
+        $positions = $workoutExercises
+            ->map(fn($we) => $we->getPosition())
+            ->filter(fn($pos) => $pos !== null);
+
+        return $positions->isEmpty() ? 0 : max($positions->toArray());
     }
 }

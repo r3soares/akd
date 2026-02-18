@@ -17,7 +17,11 @@ class ExerciseService
 
     public function get(int $id): Exercise
     {
-        return $this->exerciseRepository->find($id);
+        $exercise = $this->exerciseRepository->find($id);
+        if (!$exercise) {
+            throw new \DomainException('Exercício não encontrado.');
+        }
+        return $exercise;
     }
 
     public function create(?string $name, ?string $description): Exercise
@@ -43,11 +47,7 @@ class ExerciseService
 
     public function delete(int $id): void
     {
-        $exercise = $this->exerciseRepository->find($id);
-
-        if (!$exercise) {
-            throw new \DomainException('Exercício não encontrado.');
-        }
+        $exercise = $this->get($id);
 
         if($exercise->getWorkoutExercises()){
             throw new \DomainException('Este exercício está vinculado a um ou mais treinos');
