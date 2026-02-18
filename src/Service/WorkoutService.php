@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Workout;
 use App\Repository\WorkoutRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\ExerciseExecutionRepository;
@@ -15,6 +16,11 @@ class WorkoutService
         private ExerciseExecutionRepository $executionRepository,
         private EntityManagerInterface $entityManager
     ) {}
+
+    public function get(int $id): Workout
+    {
+        return $this->workoutRepository->find($id);
+    }
 
     public function addExercise(
         int $workoutId,

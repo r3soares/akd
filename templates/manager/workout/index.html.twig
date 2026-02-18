@@ -30,24 +30,30 @@
                                 {% if workout.workoutExercises is empty %}
                                     <p class="text-muted">Nenhum exercício</p>
                                 {% else %}
-                                    {% for exec in workout.workoutExercises %}
+                                    {% for we in workout.workoutExercises %}
                                         <div class="d-flex justify-content-between align-items-center mb-1">
                                             <div>
-                                                {{ exec.position }} – {{ exec.exercise.name|title }}
+                                                {{ we.position }} – {{ we.exercise.name|title }}
                                                 <small class="text-muted">
-                                                    ({{ exec.exerciseExecution.short }})
+                                                    ({{ we.exerciseExecution.short }})
                                                 </small>
                                             </div>
 
                                             <div class="d-flex gap-2">
-                                                <a
-                                                    href="#"
-                                                    class="text-muted text-decoration-none"
-                                                    data-bs-toggle="tooltip"
-                                                    title="Editar exercício"
+                                                <button
+                                                    class="btn btn-sm btn-icon open-exercise-modal"
+                                                    title="Editar"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exercise_modal"
+                                                    data-workout-id="{{ workout.id }}"
+                                                    data-workout-name="{{ workout.name }}"
+                                                    data-we-id="{{ we.id }}"
+                                                    data-we-position="{{ we.position }}"
+                                                    data-we-exercise-id="{{ we.exercise.id }}"
+                                                    data-we-exercise-execution-id="{{ we.exerciseExecution.id}}"
                                                 >
                                                     {{ ux_icon('material-symbols:edit') }}
-                                                </a>
+                                                </button>
 
                                                 <a
                                                     href="#"
@@ -70,6 +76,10 @@
                                     data-bs-target="#exercise_modal"
                                     data-workout-id="{{ workout.id }}"
                                     data-workout-name="{{ workout.name }}"
+                                    data-we-id=""
+                                    data-we-position=""
+                                    data-we-exercise-id=""
+                                    data-we-exercise-execution-id=""
                                 >
                                     {{ ux_icon('material-symbols:add', { style: 'font-size: 1.4rem;' }) }}
                                     Exercício

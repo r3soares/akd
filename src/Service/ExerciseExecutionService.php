@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Exercise;
 use App\Entity\ExerciseExecution;
 use App\Repository\ExerciseExecutionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +13,11 @@ class ExerciseExecutionService
         private ExerciseExecutionRepository $repository,
         private EntityManagerInterface $entityManager
     ) {}
+
+    public function get(int $id): ExerciseExecution
+    {
+        return $this->repository->find($id);
+    }
 
     public function create(string $short, string $description): ExerciseExecution
     {

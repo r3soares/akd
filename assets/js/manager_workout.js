@@ -12,29 +12,59 @@ document.addEventListener('DOMContentLoaded', () => {
         //Busca o botão que disparou o evento
         const button = event.relatedTarget;
 
-        //Pega os dados deste botão
-        const workoutId = button.dataset.workoutId;
-        const workoutName = button.dataset.workoutName;
+        const {
+            workoutId = '',
+            workoutName = '',
+            weId = '',
+            wePosition = '',
+            weExerciseExecutionId = '',
+            weExerciseId = ''
+        } = button.dataset;
 
         //Adiciona os dados ao formulário do modal
-        const form = document.getElementById('exercise_modal_dialog');
-        if(!form){
+        const modal = document.getElementById('exercise_modal_dialog');
+        if(!modal){
             console.warn('Formulário não encontrado');
+            return;
         }
 
+        const form = modal.querySelector('#exercise_form');
+        form.action = weId ?
+            form.dataset.editTemplate.replace('__id__', weId)
+            : form.dataset.create;
+
         // input hidden dentro do form
-        const workoutInput = form.querySelector('#workout_id');
+        const workoutInput = modal.querySelector('#workout_id');
         if (workoutInput) workoutInput.value = workoutId;
 
         // título dentro do modal
-        const workoutTitle = form.querySelector('#workout_name');
+        const workoutTitle = modal.querySelector('#workout_name');
         if (workoutTitle) workoutTitle.textContent = workoutName;
 
+        const dropdownExercises = modal.querySelector('#exerciseList');
+        const dropdownExecutions = modal.querySelector('#executionList');
+
+        selectDropdownItemById(dropdownExercises, weExerciseId);
+        selectDropdownItemById(dropdownExecutions, weExerciseExecutionId);
+
+        const positionInput = modal.querySelector('#we_position');
+        positionInput.value = wePosition;
+
+    });
+
+    //Limpa ao fechar o modal
+    modal.addEventListener('hidden.bs.modal', function () {
+
+        const form = document.getElementById('exercise_form');
+        clearForm(form);
     });
 
     function onSelectDropdownMenu(e){
         const item = e.target.closest(".dropdown-item");
-        if (!item) return;
+        if (!item) {
+            console.warn('Item não encontrado');
+            return;
+        }
 
         // sobe até o container .dropdown
         const dropdown = item.closest(".dropdown");
@@ -49,9 +79,24 @@ document.addEventListener('DOMContentLoaded', () => {
         input.value = item.dataset.name;   // mostrado no campo
         hidden.value = item.dataset.id;    // enviado no form
 
+        // marca visualmente
+        dropdown.querySelectorAll(".dropdown-item")
+            .forEach(i => i.classList.remove("active"));
+        item.classList.add("active");
+
         // fecha o dropdown (Bootstrap)
-        const bsDropdown = bootstrap.Dropdown.getInstance(input);
+        const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(input);
         if (bsDropdown) bsDropdown.hide();
+    }
+
+    function selectDropdownItemById(dropdownMenu, id) {
+
+        if (!dropdownMenu || !id) return;
+
+        const item = dropdownMenu.querySelector(`.dropdown-item[data-id="${id}"]`);
+        if (!item) return;
+
+        onSelectDropdownMenu({ target: item });
     }
 
     // Função genérica para lidar com dropdowns do modal
@@ -112,6 +157,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // inicializa autocomplete no modal
     setupAutocomplete("#exercise_modal");
+
+    function clearForm(form) {
+
+        // limpa campos padrão
+        form.reset();
+
+        // limpa todos os dropdowns customizados
+        form.querySelectorAll(".dropdown").forEach(dropdown => {
+
+            const input = dropdown.querySelector("input.form-control");
+            const hidden = dropdown.querySelector("input[type='hidden']");
+            const items = dropdown.querySelectorAll(".dropdown-item");
+
+            if (input) input.value = "";
+            if (hidden) hidden.value = "";
+
+            items.forEach(item => item.classList.remove("active"));
+
+        });
+
+    }
+
 
 });
 

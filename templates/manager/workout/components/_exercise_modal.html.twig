@@ -13,7 +13,12 @@
 
             <!-- Corpo -->
             <div class="modal-body">
-                <form id="exercise_form" method="POST" action="{{ path(route('MANAGER_WORKOUT_CREATE')) }}">
+                <form
+                    id="exercise_form"
+                    method="POST"
+                    data-edit-template="{{ path(route('MANAGER_WORKOUT_EDIT'), { id: '__id__' }) }}"
+                    data-create="{{ path(route('MANAGER_WORKOUT_CREATE')) }}"
+                >
                     <input type="hidden" id="workout_id" name="workout">
                     {#Lista de Exercícios#}
                     <div class="mb-3">
@@ -62,6 +67,10 @@
                                 {% endfor %}
                             </ul>
                         </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="we_position">Ordem de Execução</label>
+                        <input id="we_position" type="number" name="position"  class="form-control" min="0" placeholder="Opcional">
                     </div>
                 </form>
             </div>

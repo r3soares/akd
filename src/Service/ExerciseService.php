@@ -15,6 +15,11 @@ class ExerciseService
         private ValidatorInterface $validator
     ) {}
 
+    public function get(int $id): Exercise
+    {
+        return $this->exerciseRepository->find($id);
+    }
+
     public function create(?string $name, ?string $description): Exercise
     {
         $exercise = new Exercise();
