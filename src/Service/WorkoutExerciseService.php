@@ -8,7 +8,9 @@ use App\Entity\Workout;
 use App\Entity\WorkoutExercise;
 use App\Repository\ExerciseExecutionRepository;
 use App\Repository\ExerciseRepository;
+use App\Repository\WorkoutExerciseRepository;
 use App\Repository\WorkoutRepository;
+use App\Service\WorkoutService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -18,9 +20,17 @@ class WorkoutExerciseService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private ValidatorInterface $validator,
-        private WorkoutService $workoutService,
+        private ValidatorInterface     $validator, private readonly WorkoutService $workoutService,
     ) {}
+
+    public function save(WorkoutExercise $we)
+    {
+        $wes = $we->getWorkout()->getWorkoutExercises();
+        $finalPos = max(0, $we->getPosition()) ?: $this->workoutService->getLastPosition($wes)+1    ;
+        $we->setPosition($finalPos);
+        $this->entityManager->persist($we);
+        $this->entityManager->flush();
+    }
 
     public function create(
         Workout $workout,

@@ -2,7 +2,9 @@
 
 namespace App\Controller\Manager;
 
+use App\Entity\Workout;
 use App\Entity\WorkoutExercise;
+use App\Form\Manager\WorkoutExerciseType;
 use App\Repository\ExerciseExecutionRepository;
 use App\Repository\ExerciseRepository;
 use App\Repository\WorkoutExerciseRepository;
@@ -24,7 +26,7 @@ class WorkoutController extends AbstractController
 {
     public function __construct(
         private WorkoutService         $workoutService,
-        private WorkoutExerciseService $workoutExerciseService,
+        private WorkoutExerciseService $weService,
         private ExerciseService $exerciseService,
         private ExerciseExecutionService $exerciseExecutionService,
     ){}
@@ -54,28 +56,19 @@ class WorkoutController extends AbstractController
         Request $request
     ): RedirectResponse {
 
-        try {
-            $exercise = $this->exerciseService->get((int) $request->request->get('exercise'));
-            $exerciseExecution = $this->exerciseExecutionService->get((int) $request->request->get('execution'));
-            $workout = $this->workoutService->get((int) $request->request->get('workout'));
+        $we = new WorkoutExercise();
+        $form = $this->createForm(WorkoutExerciseType::class, $we);
+        $form->handleRequest($request);
 
-            $this->workoutExerciseService->create(
-                $workout,
-                $exercise,
-                $exerciseExecution,
-                (int)$request->request->get('position')
-            );
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->weService->save($we);
             $this->addFlash('success', 'Exercício adicionado');
+        }
+        else if ($form->isSubmitted()) {
 
-        } catch (\DomainException $e) {
-
-            $this->addFlash('warning', $e->getMessage());
-
-        } catch (\InvalidArgumentException $e) {
-
-            $this->addFlash('danger', $e->getMessage());
-
+            foreach ($form->getErrors(true) as $error) {
+                $this->addFlash('warning', $error->getMessage());
+            }
         }
 
         return $this->redirectToRoute(RouteName::MANAGER_WORKOUT);
@@ -84,26 +77,51 @@ class WorkoutController extends AbstractController
     #[Route('/edit/{id}', name: RouteName::MANAGER_WORKOUT_EDIT, methods: ['POST'])]
     public function edit(WorkoutExercise $we, Request $request) : RedirectResponse
     {
-        try {
-            $exercise = $this->exerciseService->get((int) $request->request->get('exercise'));
-            $exerciseExecution = $this->exerciseExecutionService->get((int) $request->request->get('execution'));
+        $form = $this->createForm(WorkoutExerciseType::class, $we);
+        $form->handleRequest($request);
 
-            $this->workoutExerciseService->update(
-                $we,
-                $we->getWorkout(),
-                $exercise,
-                $exerciseExecution,
-                (int)$request->request->get('position')
-            );
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->weService->save($we);
             $this->addFlash('success', "{$we->getWorkout()} atualizado com sucesso");
+        } else if ($form->isSubmitted()) {
 
-        } catch (\InvalidArgumentException | \DomainException $e) {
-
-            $this->addFlash('warning', $e->getMessage());
+            foreach ($form->getErrors(true) as $error) {
+                $this->addFlash('warning', $error->getMessage());
+            }
         }
 
         return $this->redirectToRoute(RouteName::MANAGER_WORKOUT);
+    }
+
+    #[Route('/form/new/{id}', name: RouteName::MANAGER_WORKOUT_FORM_NEW)]
+    public function formNew(Workout $workout, WorkoutRepository $workoutRepository): Response
+    {
+        $workoutExercise = new WorkoutExercise();
+        $workoutExercise->setWorkout($workout); // associa o Workout
+
+        $form = $this->createForm(WorkoutExerciseType::class, $workoutExercise, [
+            'action' => $this->generateUrl(RouteName::MANAGER_WORKOUT_CREATE),
+            'method' => 'POST',
+        ]);
+
+        return $this->render('manager/workout/components/_exercise_modal.html.twig', [
+            'exerciseForm' => $form->createView(),
+            'isEdit' => false,
+        ]);
+    }
+
+    #[Route('/form/edit/{id}', name: RouteName::MANAGER_WORKOUT_FORM_EDIT)]
+    public function formEdit(WorkoutExercise $we, WorkoutRepository $workoutRepository): Response
+    {
+        $form = $this->createForm(WorkoutExerciseType::class, $we, [
+            'action' => $this->generateUrl(RouteName::MANAGER_WORKOUT_EDIT, ['id' => $we->getId()]),
+            'method' => 'POST',
+        ]);
+
+        return $this->render('manager/workout/components/_exercise_modal.html.twig', [
+            'exerciseForm' => $form->createView(),
+            'isEdit' => true,
+        ]);
     }
 
 }

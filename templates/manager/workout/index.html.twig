@@ -43,14 +43,10 @@
                                                 <button
                                                     class="btn btn-sm btn-icon open-exercise-modal"
                                                     title="Editar"
+                                                    {# Passa o WorkoutExercise #}
+                                                    data-url = "{{ path(route('MANAGER_WORKOUT_FORM_EDIT'), {id : we.id}) }}"
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#exercise_modal"
-                                                    data-workout-id="{{ workout.id }}"
-                                                    data-workout-name="{{ workout.name }}"
-                                                    data-we-id="{{ we.id }}"
-                                                    data-we-position="{{ we.position }}"
-                                                    data-we-exercise-id="{{ we.exercise.id }}"
-                                                    data-we-exercise-execution-id="{{ we.exerciseExecution.id}}"
+                                                    data-bs-target="#exerciseModal"
                                                 >
                                                     {{ ux_icon('material-symbols:edit') }}
                                                 </button>
@@ -72,14 +68,10 @@
                             <div class="card-footer d-flex justify-content-start align-items-center">
                                 <button
                                     class="btn btn-sm btn-secondary open-exercise-modal"
+                                    {# Passa o Workout #}
+                                    data-url = "{{ path(route('MANAGER_WORKOUT_FORM_NEW'), {id : workout.id}) }}"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#exercise_modal"
-                                    data-workout-id="{{ workout.id }}"
-                                    data-workout-name="{{ workout.name }}"
-                                    data-we-id=""
-                                    data-we-position=""
-                                    data-we-exercise-id=""
-                                    data-we-exercise-execution-id=""
+                                    data-bs-target="#exerciseModal"
                                 >
                                     {{ ux_icon('material-symbols:add', { style: 'font-size: 1.4rem;' }) }}
                                     Exercício
@@ -91,10 +83,28 @@
             </div>
         </div>
     </div>
-    {% include 'manager/workout/components/_exercise_modal.html.twig' with{
-        exercises: exercises,
-        exerciseExecutions: exerciseExecutions
-    } %}
+    <div class="modal fade" id="exerciseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Exercício</h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body" id="modal-body-content">
+
+                    {# formulário será carregado aqui via AJAX #}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 

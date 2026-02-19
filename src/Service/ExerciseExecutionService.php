@@ -14,7 +14,7 @@ class ExerciseExecutionService
         private EntityManagerInterface $entityManager
     ) {}
 
-    public function get(int $id): Exercise
+    public function get(int $id): ExerciseExecution
     {
         $execution = $this->repository->find($id);
         if (!$execution) {

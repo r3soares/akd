@@ -1,96 +1,23 @@
-<div class="modal fade" id="exercise_modal" tabindex="-1">
+{{ form_start(exerciseForm, {attr: {id: 'exercise_form' }}) }}
+    {{ form_row(exerciseForm.workout) }}
 
-    <div class="modal-dialog" id="exercise_modal_dialog">
+    {{ form_row(exerciseForm.exercise) }}
 
-        <div class="modal-content">
+    {{ form_row(exerciseForm.exerciseExecution) }}
 
-            <!-- Cabeçalho -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="workout_name"></h5>
+    {{ form_row(exerciseForm.position) }}
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+<div class="modal-footer px-0 pb-0">
+    <button type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal">
+        Cancelar
+    </button>
 
-            <!-- Corpo -->
-            <div class="modal-body">
-                <form
-                    id="exercise_form"
-                    method="POST"
-                    data-edit-template="{{ path(route('MANAGER_WORKOUT_EDIT'), { id: '__id__' }) }}"
-                    data-create="{{ path(route('MANAGER_WORKOUT_CREATE')) }}"
-                >
-                    <input type="hidden" id="workout_id" name="workout">
-                    {#Lista de Exercícios#}
-                    <div class="mb-3">
-                        <div class="dropdown">
-                            <input type="hidden" id="exercise_id" name="exercise">
-                            <label for="exercise" class="form-label">Exercício</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="exercise"
-                                data-bs-toggle="dropdown"
-                                placeholder="Digite para buscar..."
-                                autocomplete="off"
-                            >
-                            <ul class="dropdown-menu w-100" id="exerciseList">
-                                {% for exec in exercises %}
-                                    <li
-                                        class="dropdown-item"
-                                        data-id="{{ exec.id }}"
-                                        data-name="{{ exec.name }}"
-                                    >{{ exec.name|title }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                    {#Lista de Execuções#}
-                    <div class="mb-3">
-                        <div class="dropdown">
-                            <input type="hidden" id="execution_id" name="execution">
-                            <label for="execution" class="form-label">Execução</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="execution"
-                                data-bs-toggle="dropdown"
-                                placeholder="Digite para buscar..."
-                                autocomplete="off"
-                            >
-                            <ul class="dropdown-menu w-100" id="executionList">
-                                {% for execu in exerciseExecutions %}
-                                    <li
-                                        class="dropdown-item"
-                                        data-id="{{ execu.id }}"
-                                        data-name="{{ execu.short }}"
-                                    >{{ execu.short }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="we_position">Ordem de Execução</label>
-                        <input id="we_position" type="number" name="position"  class="form-control" min="0" placeholder="Opcional">
-                    </div>
-                </form>
-            </div>
-
-            <!-- Rodapé -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancelar
-                </button>
-
-                <!-- botão submit do form -->
-                <button type="submit"
-                        class="btn btn-primary"
-                        form="exercise_form">
-                    Incluir
-                </button>
-            </div>
-
-        </div>
-
-    </div>
-
+    <button type="submit"
+            class="btn btn-primary">
+        {{ isEdit ? 'Atualizar' : 'Adicionar' }}
+    </button>
 </div>
+
+{{ form_end(exerciseForm) }}
