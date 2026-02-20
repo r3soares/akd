@@ -29,9 +29,10 @@
                     </div>
 
                     {# Botão novo #}
-                    <button class="btn btn-sm btn-secondary open-exercise_modal"
-                       data-bs-toggle="modal"
-                       data-bs-target="#exercise_modal"
+                    <button class="btn btn-sm btn-secondary open-exercise-modal"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exerciseModal"
+                        data-url = "{{ path(route('MANAGER_EXERCISE_FORM_NEW')) }}"
                     >
                         {{ ux_icon('material-symbols:add') }}
                         Novo
@@ -60,12 +61,10 @@
 
                                 <td class="d-flex justify-content-center">
                                     {# Botão Edit #}
-                                    <button class="btn btn-sm btn-outline-primary mx-3 open-exercise_modal"
+                                    <button class="btn btn-sm btn-outline-primary mx-3 open-exercise-modal"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#exercise_modal"
-                                    data-id="{{ exec.id }}"
-                                    data-name="{{ exec.name }}"
-                                    data-description="{{ exec.description }}"
+                                    data-bs-target="#exerciseModal"
+                                    data-url = "{{ path(route('MANAGER_EXERCISE_FORM_EDIT'), {id : exec.id}) }}"
                                     >
                                         {{ ux_icon('material-symbols:edit') }}
                                     </button>
@@ -98,7 +97,28 @@
         </div>
     </div>
 
-    {% include 'manager/exercise/components/_exercise_modal.html.twig' %}
+    <div class="modal fade" id="exerciseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Exercício</h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body" id="modal-body-content">
+
+                    {# formulário será carregado aqui via AJAX #}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 

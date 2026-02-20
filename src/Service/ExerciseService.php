@@ -24,6 +24,12 @@ class ExerciseService
         return $exercise;
     }
 
+    public function save(Exercise $exercise)
+    {
+        $this->entityManager->persist($exercise);
+        $this->entityManager->flush();
+    }
+
     public function create(?string $name, ?string $description): Exercise
     {
         $exercise = new Exercise();

@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace App\Controller\Manager;
 
 use App\Entity\Exercise;
+use App\Form\Manager\ExerciseType;
 use App\Repository\ExerciseRepository;
 use App\Routes\RouteName;
 use App\Service\ExerciseService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Loader\Configurator\Routes;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/manager/exercise')]
 class ExerciseController extends AbstractController
@@ -39,19 +37,19 @@ class ExerciseController extends AbstractController
         Request $request
     ): RedirectResponse
     {
-        try {
+        $exercise = new Exercise();
+        $form = $this->createForm(ExerciseType::class, $exercise);
+        $form->handleRequest($request);
 
-            $exercise = $this->exerciseService->create(
-                $request->request->get('name'),
-                $request->request->get('description')
-            );
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->exerciseService->save($exercise);
+            $this->addFlash('success', 'Exercício adicionado');
+        }
+        else if ($form->isSubmitted()) {
 
-            $this->addFlash('success', "{$exercise->getName()} criado com sucesso");
-
-        } catch (\InvalidArgumentException $e) {
-
-            $this->addFlash('warning', $e->getMessage());
-
+            foreach ($form->getErrors(true) as $error) {
+                $this->addFlash('warning', $error->getMessage());
+            }
         }
 
         return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
@@ -63,19 +61,17 @@ class ExerciseController extends AbstractController
         Request $request
     ): RedirectResponse {
 
-        try {
-            $exercise = $this->exerciseService->update(
-                $exercise,
-                $request->request->get('name'),
-                $request->request->get('description')
-            );
+        $form = $this->createForm(ExerciseType::class, $exercise);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->exerciseService->save($exercise);
             $this->addFlash('success', "{$exercise->getName()} atualizado com sucesso");
+        } else if ($form->isSubmitted()) {
 
-        } catch (\InvalidArgumentException | \DomainException $e) {
-
-            $this->addFlash('warning', $e->getMessage());
-
+            foreach ($form->getErrors(true) as $error) {
+                $this->addFlash('warning', $error->getMessage());
+            }
         }
 
         return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
@@ -99,6 +95,36 @@ class ExerciseController extends AbstractController
         }
 
         return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+    }
+
+    #[Route('/form/new', name: RouteName::MANAGER_EXERCISE_FORM_NEW)]
+    public function formNew(): Response
+    {
+        $exercise = new Exercise();
+
+        $form = $this->createForm(ExerciseType::class, $exercise, [
+            'action' => $this->generateUrl(RouteName::MANAGER_EXERCISE_CREATE),
+            'method' => 'POST',
+        ]);
+
+        return $this->render('manager/exercise/components/_exercise_modal.html.twig', [
+            'exerciseForm' => $form->createView(),
+            'isEdit' => false,
+        ]);
+    }
+
+    #[Route('/form/edit/{id}', name: RouteName::MANAGER_EXERCISE_FORM_EDIT)]
+    public function formEdit(Exercise $exercise): Response
+    {
+        $form = $this->createForm(ExerciseType::class, $exercise, [
+            'action' => $this->generateUrl(RouteName::MANAGER_EXERCISE_EDIT, ['id' => $exercise->getId()]),
+            'method' => 'POST',
+        ]);
+
+        return $this->render('manager/exercise/components/_exercise_modal.html.twig', [
+            'exerciseForm' => $form->createView(),
+            'isEdit' => true,
+        ]);
     }
 
 

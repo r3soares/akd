@@ -1,66 +1,20 @@
-<div class="modal fade" id="exercise_modal" tabindex="-1">
+{{ form_start(exerciseForm, {attr: {id: 'exercise_form' }}) }}
 
-    <div class="modal-dialog" id="exercise_modal_dialog">
+{{ form_row(exerciseForm.name) }}
 
-        <div class="modal-content">
+{{ form_row(exerciseForm.description) }}
 
-            <!-- Cabeçalho -->
-            <div class="modal-header">
-                <h5 class="modal-title">Novo</h5>
+<div class="modal-footer px-0 pb-0">
+    <button type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal">
+        Cancelar
+    </button>
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <!-- Corpo -->
-            <div class="modal-body">
-                <form
-                    id="exercise_form"
-                    method="POST"
-                    data-edit-template="{{ path(route('MANAGER_EXERCISE_EDIT'), { id: '__id__' }) }}"
-                    data-create="{{ path(route('MANAGER_EXERCISE_CREATE')) }}"
-                >
-
-                    <div class="mb-3">
-                        <label for="exercise_name" class="form-label">Nome</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="exercise_name"
-                            name="name"
-                            required
-                        >
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="exercise_description" class="form-label">Descrição</label>
-                        <textarea
-                            class="form-control"
-                            name="description"
-                            id="exercise_description"
-                            rows="3"
-                            placeholder="Opcional"
-                        ></textarea>
-                    </div>
-
-                </form>
-            </div>
-
-            <!-- Rodapé -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancelar
-                </button>
-
-                <!-- botão submit do form -->
-                <button type="submit"
-                        class="btn btn-primary"
-                        form="exercise_form">
-                    Salvar
-                </button>
-            </div>
-
-        </div>
-
-    </div>
-
+    <button type="submit"
+            class="btn btn-primary">
+        {{ isEdit ? 'Atualizar' : 'Adicionar' }}
+    </button>
 </div>
+
+{{ form_end(exerciseForm) }}

@@ -16,28 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    //Preenche os campos ao Editar
-    //Busca por todos os botões com a tag de abrir modal
-    document.querySelectorAll('.open-exercise_modal').forEach(button => {
+    document.querySelectorAll('.open-exercise-modal').forEach(btn => {
+        btn.addEventListener('click', async () => {
 
-        const {
-            id = '',
-            name = '',
-            description = ''
-        } = button.dataset;
+            const modalBody = document.getElementById('modal-body-content');
+            modalBody.innerHTML = 'Carregando...';
 
-        const form = document.getElementById('exercise_form');
-
-        button.addEventListener('click', () => {
-
-            document.getElementById('exercise_name').value = name;
-            document.getElementById('exercise_description').value = description;
-            form.action = id ?
-                form.dataset.editTemplate.replace('__id__', id)
-                : form.dataset.create;
+            const url = btn.dataset.url;
+            const response = await fetch(url);
+            modalBody.innerHTML = await response.text();
 
         });
-
     });
 
     document.querySelectorAll('.delete-form').forEach(form => {
