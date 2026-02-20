@@ -84,28 +84,18 @@ class Workout
         return $this;
     }
 
-    public function addExercise(
-        Exercise $exercise,
-        ExerciseExecution $execution
-    ): void {
-
+    public function addExerciseExecution(ExerciseExecution $exerciseExecution): void
+    {
         $we = new WorkoutExercise();
-        $we->setExercise($exercise);
-        $we->setExerciseExecution($execution);
+        $we->setExerciseExecution($exerciseExecution);
 
         $this->addWorkoutExercise($we);
     }
 
-    public function hasExercise(
-        Exercise $exercise,
-        ExerciseExecution $execution
-    ): bool {
-
+    public function hasExerciseExecution(ExerciseExecution $exerciseExecution): bool
+    {
         foreach ($this->workoutExercises as $we) {
-            if (
-                $we->getExercise() === $exercise &&
-                $we->getExerciseExecution() === $execution
-            ) {
+            if ($we->getExerciseExecution() === $exerciseExecution) {
                 return true;
             }
         }

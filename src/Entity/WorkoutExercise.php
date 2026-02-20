@@ -6,6 +6,15 @@ use App\Repository\WorkoutExerciseRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WorkoutExerciseRepository::class)]
+#[ORM\Table(
+    name: 'workout_exercise',
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: 'workout_exercise_unique',
+            columns: ['workout_id', 'exercise_execution_id']
+        )
+    ]
+)]
 class WorkoutExercise
 {
     #[ORM\Id]
@@ -18,10 +27,6 @@ class WorkoutExercise
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
-
-    #[ORM\ManyToOne(inversedBy: 'workoutExercises')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Exercise $exercise = null;
 
     #[ORM\ManyToOne(inversedBy: 'workoutExercises')]
     private ?ExerciseExecution $exerciseExecution = null;
@@ -57,18 +62,6 @@ class WorkoutExercise
     public function setNote(?string $note): static
     {
         $this->note = $note;
-
-        return $this;
-    }
-
-    public function getExercise(): ?Exercise
-    {
-        return $this->exercise;
-    }
-
-    public function setExercise(?Exercise $exercise): static
-    {
-        $this->exercise = $exercise;
 
         return $this;
     }

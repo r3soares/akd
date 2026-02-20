@@ -2,22 +2,20 @@
 
 namespace App\Entity;
 
-use App\Repository\ExerciseRepository;
+use App\Repository\ExecutionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: ExerciseRepository::class)]
-#[UniqueEntity('name', message: 'Já existe um exercício com este nome.')]
-class Exercise
+#[ORM\Entity(repositoryClass: ExecutionRepository::class)]
+class Execution
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 128, unique: true)]
+    #[ORM\Column(length: 128)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -26,7 +24,7 @@ class Exercise
     /**
      * @var Collection<int, ExerciseExecution>
      */
-    #[ORM\OneToMany(targetEntity: ExerciseExecution::class, mappedBy: 'exercise', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ExerciseExecution::class, mappedBy: 'execution', orphanRemoval: true)]
     private Collection $exerciseExecutions;
 
     public function __construct()
@@ -46,7 +44,7 @@ class Exercise
 
     public function setName(string $name): static
     {
-        $this->name = mb_strtolower(trim($name));
+        $this->name = $name;
 
         return $this;
     }
@@ -58,14 +56,9 @@ class Exercise
 
     public function setDescription(?string $description): static
     {
-        $this->description = $description !== null ? trim($description) : null;
+        $this->description = $description;
 
         return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->name ?? '';
     }
 
     /**
@@ -80,7 +73,7 @@ class Exercise
     {
         if (!$this->exerciseExecutions->contains($exerciseExecution)) {
             $this->exerciseExecutions->add($exerciseExecution);
-            $exerciseExecution->setExercise($this);
+            $exerciseExecution->setExecution($this);
         }
 
         return $this;
@@ -90,11 +83,16 @@ class Exercise
     {
         if ($this->exerciseExecutions->removeElement($exerciseExecution)) {
             // set the owning side to null (unless already changed)
-            if ($exerciseExecution->getExercise() === $this) {
-                $exerciseExecution->setExercise(null);
+            if ($exerciseExecution->getExecution() === $this) {
+                $exerciseExecution->setExecution(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 }

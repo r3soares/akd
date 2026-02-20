@@ -8,6 +8,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExerciseExecutionRepository::class)]
+#[ORM\Table(
+    name: 'exercise_execution',
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: 'exercise_execution_unique',
+            columns: ['exercise_id', 'execution_id']
+        )
+    ]
+)]
 class ExerciseExecution
 {
     #[ORM\Id]
@@ -15,17 +24,24 @@ class ExerciseExecution
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50, unique: true)]
-    private ?string $short = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
-
     /**
      * @var Collection<int, WorkoutExercise>
      */
-    #[ORM\OneToMany(targetEntity: WorkoutExercise::class, mappedBy: 'exerciseExecution')]
+    #[ORM\OneToMany(
+        targetEntity: WorkoutExercise::class,
+        mappedBy: 'exerciseExecution',
+        cascade: ['persist'],
+        orphanRemoval: true
+    )]
     private Collection $workoutExercises;
+
+    #[ORM\ManyToOne(inversedBy: 'exerciseExecutions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Exercise $exercise = null;
+
+    #[ORM\ManyToOne(inversedBy: 'exerciseExecutions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Execution $execution = null;
 
     public function __construct()
     {
@@ -35,30 +51,6 @@ class ExerciseExecution
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getShort(): ?string
-    {
-        return $this->short;
-    }
-
-    public function setShort(string $short): static
-    {
-        $this->$short = mb_strtolower(trim($short));
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**
@@ -93,6 +85,30 @@ class ExerciseExecution
 
     public function __toString(): string
     {
-        return $this->short ?? '';
+        return $this->exercise . ' - ' . $this->execution;
+    }
+
+    public function getExercise(): ?Exercise
+    {
+        return $this->exercise;
+    }
+
+    public function setExercise(?Exercise $exercise): static
+    {
+        $this->exercise = $exercise;
+
+        return $this;
+    }
+
+    public function getExecution(): ?Execution
+    {
+        return $this->execution;
+    }
+
+    public function setExecution(?Execution $execution): static
+    {
+        $this->execution = $execution;
+
+        return $this;
     }
 }
