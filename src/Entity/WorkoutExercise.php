@@ -4,16 +4,12 @@ namespace App\Entity;
 
 use App\Repository\WorkoutExerciseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WorkoutExerciseRepository::class)]
-#[ORM\Table(
-    name: 'workout_exercise',
-    uniqueConstraints: [
-        new ORM\UniqueConstraint(
-            name: 'workout_exercise_unique',
-            columns: ['workout_id', 'exercise_execution_id']
-        )
-    ]
+#[ORM\UniqueConstraint(
+    name: 'workout_exercise_unique',
+    columns: ['workout_id', 'exercise_execution_id']
 )]
 class WorkoutExercise
 {
@@ -28,13 +24,14 @@ class WorkoutExercise
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $note = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workoutExercises')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'workoutExercises')]
     private ?ExerciseExecution $exerciseExecution = null;
 
-    #[ORM\ManyToOne(inversedBy: 'workoutExercises')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'workoutExercises')]
     private ?Workout $workout = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive(message: 'A posição deve ser maior que zero')]
     private ?int $position = null;
 
     public function getId(): ?int
@@ -61,7 +58,7 @@ class WorkoutExercise
 
     public function setNote(?string $note): static
     {
-        $this->note = $note;
+        $this->$note = mb_strtolower(trim($note));
 
         return $this;
     }

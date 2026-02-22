@@ -8,14 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExerciseExecutionRepository::class)]
-#[ORM\Table(
-    name: 'exercise_execution',
-    uniqueConstraints: [
-        new ORM\UniqueConstraint(
-            name: 'exercise_execution_unique',
-            columns: ['exercise_id', 'execution_id']
-        )
-    ]
+#[ORM\Table(name: 'exercise_execution')]
+#[ORM\UniqueConstraint(
+    name: 'exercise_execution_unique',
+    columns: ['exercise_id', 'execution_id']
 )]
 class ExerciseExecution
 {
@@ -35,11 +31,11 @@ class ExerciseExecution
     )]
     private Collection $workoutExercises;
 
-    #[ORM\ManyToOne(inversedBy: 'exerciseExecutions')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'exerciseExecutions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Exercise $exercise = null;
 
-    #[ORM\ManyToOne(inversedBy: 'exerciseExecutions')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'exerciseExecutions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Execution $execution = null;
 

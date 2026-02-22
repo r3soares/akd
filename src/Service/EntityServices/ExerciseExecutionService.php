@@ -16,7 +16,9 @@ class ExerciseExecutionService extends AbstractEntityService
         private ExerciseExecutionRepository $repository,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator
-    ) {}
+    ) {
+        parent::__construct($entityManager, $validator);
+    }
 
     protected function getRepository(): ExerciseExecutionRepository
     {

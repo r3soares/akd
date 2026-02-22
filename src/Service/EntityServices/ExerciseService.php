@@ -14,10 +14,12 @@ use Symfony\Component\Validator\Exception\ValidationFailedException;
 class ExerciseService extends AbstractEntityService
 {
     public function __construct(
-        private ExerciseRepository $exerciseRepository,
+        private ExerciseRepository $repository,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator
-    ) {}
+    ) {
+        parent::__construct($entityManager, $validator);
+    }
 
     protected function getRepository(): ExerciseRepository
     {

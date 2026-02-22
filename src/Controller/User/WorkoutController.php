@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/user/workout')]
 final class WorkoutController extends AbstractController
 {
-    #[Route('', name: RouteName::USER_WORKOUT)]
+    #[Route('', name: RouteName::USER_WORKOUT_INDEX)]
     public function index(): Response
     {
         return $this->render('user/workout/index.html.twig', [

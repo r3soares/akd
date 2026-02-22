@@ -15,8 +15,8 @@ final class HomeController extends AbstractController
     {
         return $this->render('manager/home/index.html.twig', [
             'routes' => [
-                'Treinos' => ['route' => RouteName::MANAGER_WORKOUT, 'desc' => 'Cadastre seus treinos'],
-                'Exercícios' => ['route' => RouteName::MANAGER_EXERCISE, 'desc' => 'Cadastre seus exercícios'],
+                'Treinos' => ['route' => RouteName::MANAGER_WORKOUT_INDEX, 'desc' => 'Cadastre seus treinos'],
+                'Exercícios' => ['route' => RouteName::MANAGER_EXERCISE_INDEX, 'desc' => 'Cadastre seus exercícios'],
             ],
         ]);
     }

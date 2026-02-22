@@ -7,47 +7,35 @@ use App\Entity\WorkoutExercise;
 use App\Form\Manager\WorkoutExerciseType;
 use App\Repository\ExerciseExecutionRepository;
 use App\Repository\ExerciseRepository;
-use App\Repository\WorkoutExerciseRepository;
 use App\Repository\WorkoutRepository;
 use App\Routes\RouteName;
-use App\Service\ExerciseExecutionService;
-use App\Service\ExerciseService;
-use App\Service\WorkoutExerciseService;
-use App\Service\WorkoutService;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\EntityServices\ExecutionService;
+use App\Service\EntityServices\ExerciseExecutionService;
+use App\Service\EntityServices\ExerciseService;
+use App\Service\EntityServices\WorkoutExerciseService;
+use App\Service\EntityServices\WorkoutService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_MANAGER')]
 #[Route('/manager/workout')]
 class WorkoutController extends AbstractController
 {
     public function __construct(
-        private WorkoutService         $workoutService,
-        private WorkoutExerciseService $weService,
-        private ExerciseService $exerciseService,
-        private ExerciseExecutionService $exerciseExecutionService,
+        private WorkoutService  $wService,
+        private WorkoutExerciseService   $weService,
     ){}
-    #[Route('', RouteName::MANAGER_WORKOUT)]
-    public function index(
-        WorkoutRepository $workoutRepository,
-        ExerciseRepository $exerciseRepository,
-        ExerciseExecutionRepository $exerciseExecutionRepository): Response
+    #[Route('', RouteName::MANAGER_WORKOUT_INDEX)]
+    public function index(): Response
     {
-        $workouts = $workoutRepository->findBy([
-            'trainee' => null
-        ]);
-
-        $exercises = $exerciseRepository->findAll();
-
-        $exercicesExecutions = $exerciseExecutionRepository->findAll();
+        $workouts = $this->wService->findAll();
 
         return $this->render('manager/workout/index.html.twig', [
-            'workouts' => $workouts,
-            'exercises' => $exercises,
-            'exerciseExecutions' => $exercicesExecutions
+            'workouts' => $workouts
         ]);
     }
 
@@ -71,7 +59,7 @@ class WorkoutController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute(RouteName::MANAGER_WORKOUT);
+        return $this->redirectToRoute(RouteName::MANAGER_WORKOUT_INDEX);
     }
 
     #[Route('/edit/{id}', name: RouteName::MANAGER_WORKOUT_EDIT, methods: ['POST'])]
@@ -90,7 +78,27 @@ class WorkoutController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute(RouteName::MANAGER_WORKOUT);
+        return $this->redirectToRoute(RouteName::MANAGER_WORKOUT_INDEX);
+    }
+
+    #[Route('/delete/{id}', name: RouteName::MANAGER_WORKOUT_DELETE, methods: ['POST'])]
+    public function delete(
+        WorkoutExercise $workoutExercise
+    ): RedirectResponse {
+
+        try {
+
+            $this->weService->delete($workoutExercise);
+
+            $this->addFlash('success', "{$workoutExercise->getExerciseExecution()->getExercise()} excluído com sucesso");
+
+        } catch (\Exception $e) {
+
+            $this->addFlash('warning', $e->getMessage());
+
+        }
+
+        return $this->redirectToRoute(RouteName::MANAGER_WORKOUT_INDEX);
     }
 
     #[Route('/form/new/{id}', name: RouteName::MANAGER_WORKOUT_FORM_NEW)]

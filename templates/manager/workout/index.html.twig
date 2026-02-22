@@ -1,6 +1,7 @@
 {% extends 'manager/base.html.twig' %}
 
 {% block javascripts %}
+    {{ parent() }}
     {{ encore_entry_script_tags('manager_workout') }}
 {% endblock %}
 
@@ -11,6 +12,10 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row align-items-start">
+            {# Novo #}
+            <button class="btn btn-primary mb-3">
+                Novo Treino
+            </button>
             <div class="row g-3 align-items-start">
                 {% for workout in workouts %}
                     <div class="col-md-3">

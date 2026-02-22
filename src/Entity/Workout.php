@@ -6,6 +6,7 @@ use App\Repository\WorkoutRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WorkoutRepository::class)]
 class Workout
@@ -16,6 +17,7 @@ class Workout
     private ?int $id = null;
 
     #[ORM\Column(length: 128, unique: true)]
+    #[Assert\NotBlank(message: 'O nome não pode ser vazio')]
     private ?string $name = null;
 
     /**
@@ -29,7 +31,7 @@ class Workout
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $workoutExercises;
 
-    #[ORM\ManyToOne(inversedBy: 'workouts')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'workouts')]
     private ?User $trainee = null;
 
     public function __construct()

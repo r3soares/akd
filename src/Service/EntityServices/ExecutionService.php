@@ -17,7 +17,9 @@ class ExecutionService extends AbstractEntityService
         private ExecutionRepository $repository,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator
-    ) {}
+    ) {
+        parent::__construct($entityManager, $validator);
+    }
 
     protected function getRepository(): ExecutionRepository
     {
@@ -33,7 +35,7 @@ class ExecutionService extends AbstractEntityService
     ): Execution {
 
         $execution = new Execution();
-        $execution->setName(trim($name));
+        $execution->setName($name);
         $execution->setDescription($description);
 
         return $this->save($execution);

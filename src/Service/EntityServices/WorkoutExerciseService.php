@@ -16,7 +16,9 @@ class WorkoutExerciseService extends AbstractEntityService
         private WorkoutExerciseRepository $repository,
         EntityManagerInterface $entityManager,
         ValidatorInterface $validator
-    ) {}
+    ) {
+        parent::__construct($entityManager, $validator);
+    }
 
     protected function getRepository(): WorkoutExerciseRepository
     {
@@ -26,7 +28,7 @@ class WorkoutExerciseService extends AbstractEntityService
     public function create(
         Workout $workout,
         ExerciseExecution $exerciseExecution,
-        int $position
+        ?int $position
     ): WorkoutExercise {
 
         $workoutExercise = new WorkoutExercise();
@@ -50,7 +52,7 @@ class WorkoutExerciseService extends AbstractEntityService
         }
 
         // posição automática
-        if (!$workoutExercise->getPosition()) {
+        if (empty($workoutExercise->getPosition())) {
 
             $lastPosition = $this->repository->count([
                 'workout' => $workoutExercise->getWorkout()

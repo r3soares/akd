@@ -23,19 +23,21 @@ final class RouteName
     public const USER_PERFIL_PASSWORD = 'user_perfil_password';
     public const USER_PREFERENCE = 'user_preference';
     public const USER_SCHEDULE = 'user_schedule';
-    public const USER_WORKOUT = 'user_workout';
+    public const USER_EXERCISE_INDEX = 'user_exercise_index';
+    public const USER_WORKOUT_INDEX = 'user_workout_index';
 
     // ----------------------------------------
     public const MANAGER_HOME = 'manager_home';
-    public const MANAGER_EXERCISE = 'manager_exercise';
+    public const MANAGER_EXERCISE_INDEX = 'manager_exercise_index';
     public const MANAGER_EXERCISE_CREATE = 'manager_exercise_create';
     public const MANAGER_EXERCISE_EDIT = 'manager_exercise_edit';
     public const MANAGER_EXERCISE_DELETE = 'manager_exercise_delete';
     public const MANAGER_EXERCISE_FORM_NEW = 'manager_exercise_form_new';
     public const MANAGER_EXERCISE_FORM_EDIT = 'manager_exercise_form_edit';
-    public const MANAGER_WORKOUT = 'manager_workout';
+    public const MANAGER_WORKOUT_INDEX = 'manager_workout_index';
     public const MANAGER_WORKOUT_CREATE = 'manager_workout_create';
     public const MANAGER_WORKOUT_EDIT = 'manager_workout_edit';
+    public const MANAGER_WORKOUT_DELETE = 'manager_workout_delete';
     public const MANAGER_WORKOUT_FORM_NEW = 'manager_workout_form_new';
     public const MANAGER_WORKOUT_FORM_EDIT = 'manager_workout_form_edit';
 

@@ -32,9 +32,9 @@ abstract class AbstractEntityService
      */
     public function save(object $entity): object
     {
-        $this->validate($entity);
-
         $this->beforeSave($entity);
+
+        $this->validate($entity);
 
         $this->entityManager->persist($entity);
         $this->entityManager->flush();

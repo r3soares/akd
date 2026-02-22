@@ -20,7 +20,8 @@ class ExerciseType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'maxlength' => 255,
-                    'placeholder' => 'Ex: Supino reto'
+                    'placeholder' => 'Nome do exercício',
+                    'class' => 'text-capitalize'
                 ]
             ])
 

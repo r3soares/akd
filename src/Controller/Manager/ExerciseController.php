@@ -8,13 +8,15 @@ use App\Entity\Exercise;
 use App\Form\Manager\ExerciseType;
 use App\Repository\ExerciseRepository;
 use App\Routes\RouteName;
-use App\Service\ExerciseService;
+use App\Service\EntityServices\ExerciseService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_MANAGER')]
 #[Route('/manager/exercise')]
 class ExerciseController extends AbstractController
 {
@@ -22,10 +24,10 @@ class ExerciseController extends AbstractController
         private ExerciseService $exerciseService
     ){}
 
-    #[Route('', name: RouteName::MANAGER_EXERCISE)]
-    public function index(ExerciseRepository $exerciseRepository,): Response
+    #[Route('', name: RouteName::MANAGER_EXERCISE_INDEX)]
+    public function index(): Response
     {
-        $exercises = $exerciseRepository->findBy([], ['name' => 'ASC']);
+        $exercises = $this->exerciseService->findAll();
 
         return $this->render('manager/exercise/index.html.twig', [
             'exercises' => $exercises,
@@ -33,9 +35,7 @@ class ExerciseController extends AbstractController
     }
 
     #[Route('/create', name: RouteName::MANAGER_EXERCISE_CREATE, methods: ['POST'])]
-    public function create(
-        Request $request
-    ): RedirectResponse
+    public function create(Request $request): RedirectResponse
     {
         $exercise = new Exercise();
         $form = $this->createForm(ExerciseType::class, $exercise);
@@ -52,14 +52,12 @@ class ExerciseController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+        return $this->redirectToRoute(RouteName::MANAGER_EXERCISE_INDEX);
     }
 
+
     #[Route('/edit/{id}', name: RouteName::MANAGER_EXERCISE_EDIT, methods: ['POST'])]
-    public function edit(
-        Exercise $exercise,
-        Request $request
-    ): RedirectResponse {
+    public function edit(Exercise $exercise,Request $request): RedirectResponse {
 
         $form = $this->createForm(ExerciseType::class, $exercise);
         $form->handleRequest($request);
@@ -74,17 +72,15 @@ class ExerciseController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+        return $this->redirectToRoute(RouteName::MANAGER_EXERCISE_INDEX);
     }
 
     #[Route('/delete/{id}', name: RouteName::MANAGER_EXERCISE_DELETE, methods: ['POST'])]
-    public function delete(
-        Exercise $exercise
-    ): RedirectResponse {
+    public function delete(Exercise $exercise): RedirectResponse {
 
         try {
 
-            $this->exerciseService->delete($exercise->getId());
+            $this->exerciseService->delete($exercise);
 
             $this->addFlash('success', "{$exercise->getName()} excluído com sucesso");
 
@@ -94,7 +90,7 @@ class ExerciseController extends AbstractController
 
         }
 
-        return $this->redirectToRoute(RouteName::MANAGER_EXERCISE);
+        return $this->redirectToRoute(RouteName::MANAGER_EXERCISE_INDEX);
     }
 
     #[Route('/form/new', name: RouteName::MANAGER_EXERCISE_FORM_NEW)]

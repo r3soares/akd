@@ -34,6 +34,7 @@ class WorkoutExerciseType extends AbstractType
                 'choice_label' => 'name',
                 'placeholder' => 'Selecione um exercício',
                 'required' => true,
+                'attr' => ['class' => 'text-capitalize'],
                 'constraints' => [
                     new NotNull(message: 'Selecione um exercício')
                 ],
